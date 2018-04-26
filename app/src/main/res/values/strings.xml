@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">TheDrinkBook</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="buy">Buy</string>
+    <string name="logout">Logout</string>
+    <string name="chosen">You have chosen:</string>
+    <string name="totalValue">Total value:</string>
+    <string name="cancel">Cancel</string>
+    <string name="buytext">"When pressing \"Pay\" MobilePay will automatically open. When the payment is completed \"The Drink Book\" will automatically open again. "</string>
+    <string name="completed">Payment is completed</string>
+    <string name="refill">Refill</string>
+    <string name="save">Save</string>
 </resources>
