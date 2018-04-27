@@ -12,7 +12,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
 
     Button btnRefill, btnLogout;
     ListView lvDrinks;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
