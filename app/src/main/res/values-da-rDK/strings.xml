@@ -14,4 +14,11 @@
     <string name="refill">"FYLD OP "</string>
     <string name="save">gem</string>
     <string name="save_refilling">GEM OPFYLDNING</string>
+    <string name="update_stock">Opdater lagerbeholdning</string>
+    <string name="Add_product">TILFØJ PRODUKT</string>
+    <string name="Delete_Product">SLET PRODUKT</string>
+    <string name="addproduct">Tilføj produkt</string>
+    <string name="Name">Produkt navn</string>
+    <string name="Product_price">Pris</string>
+    <string name="Picture_drink">Billede</string>
 </resources>

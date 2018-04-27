@@ -13,4 +13,11 @@
     <string name="save">Save</string>
     <string name="save_refilling">SAVE REFILLING</string>
     <string name="refill">REFILL</string>
+    <string name="update_stock">Update stock</string>
+    <string name="Add_product">ADD PRODUCT</string>
+    <string name="Delete_Product">DELETE PRODUCT</string>
+    <string name="addproduct">Add product</string>
+    <string name="Name">Product name</string>
+    <string name="Product_price">Price</string>
+    <string name="Picture_drink">Picture</string>
 </resources>
