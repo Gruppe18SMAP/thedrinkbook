@@ -12,4 +12,5 @@
     <string name="completed">Payment is completed</string>
     <string name="refill">Refill</string>
     <string name="save">Save</string>
+    <string name="save_refilling">SAVE REFILLING</string>
 </resources>
