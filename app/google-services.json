@@ -1,0 +1,63 @@
+{
+  "project_info": {
+    "project_number": "522025961153",
+    "firebase_url": "https://thedrinkbook.firebaseio.com",
+    "project_id": "thedrinkbook",
+    "storage_bucket": "thedrinkbook.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522025961153:android:579f34f49455497a",
+        "android_client_info": {
+          "package_name": "com.example.thedrinkbook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522025961153-072f774shek5f5s9ie72hcb4lenamao9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thedrinkbook",
+            "certificate_hash": "9c7b69f37528b2ec098ecd88320bbaf1c4589bb1"
+          }
+        },
+        {
+          "client_id": "522025961153-g7shppccdjhmlrqkjv93nqphlq65bcua.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thedrinkbook",
+            "certificate_hash": "60d82f1e22cb29ca3c18d5c96d4eed7a9bb9a1ca"
+          }
+        },
+        {
+          "client_id": "522025961153-o9a5po2ucd5t9g5khi4sa8imrp3huo1q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASPelQvKvYmNtpDbFJdw-9avg6-fY6dX4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522025961153-o9a5po2ucd5t9g5khi4sa8imrp3huo1q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
