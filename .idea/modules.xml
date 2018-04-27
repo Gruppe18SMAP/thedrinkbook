@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/thedrinkbook.iml" filepath="$PROJECT_DIR$/thedrinkbook.iml" />
-      <module fileurl="file://C:\Users\Bruger\Android\thedrinkbook\thedrinkbook.iml" filepath="C:\Users\Bruger\Android\thedrinkbook\thedrinkbook.iml" />
+      <module fileurl="file://C:/Users/Bruger/Android/thedrinkbook/thedrinkbook.iml" filepath="C:/Users/Bruger/Android/thedrinkbook/thedrinkbook.iml" />
     </modules>
   </component>
 </project>
