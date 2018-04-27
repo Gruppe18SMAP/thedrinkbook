@@ -34,11 +34,11 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="113dp"
+        android:layout_width="119dp"
         android:layout_height="50dp"
         android:layout_marginTop="80dp"
         android:background="#c3dceb"
-        android:text="Button"
+        android:text="@string/logout"
         android:textColor="#17637d"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

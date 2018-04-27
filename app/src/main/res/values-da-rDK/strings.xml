@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TheDrinkBook</string>
-    <string name="username">Brugernavn</string>
+    <string name="username">E-mail</string>
     <string name="password">Adgangskode</string>
-    <string name="login">Log ind</string>
+    <string name="login">LOG IND</string>
     <string name="buy">Køb</string>
-    <string name="logout">Log ud</string>
+    <string name="logout">LOG UD</string>
     <string name="chosen">Du har valgt:</string>
     <string name="totalValue">Samlet pris</string>
-    <string name="cancel">Annuller</string>
-    <string name="buytext">Når du \"BETAL\" sendes du automatisk over i MobilePay app. Efter endt betaling åbner i The Drink Book automatisk igen.</string>
+    <string name="cancel">ANNULLER</string>
+    <string name="buytext">Når du tyrkker \"betal\" sendes du automatisk over i MobilePay app. Efter endt betaling åbner The Drink Book automatisk igen.</string>
     <string name="completed">Betalingen er gennemført</string>
-    <string name="refill">Fyld op</string>
+    <string name="refill">"FYLD OP "</string>
     <string name="save">gem</string>
+    <string name="save_refilling">GEM OPFYLDNING</string>
 </resources>

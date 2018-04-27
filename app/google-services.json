@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "522025961153-s3jjdv4fjrt0ji6l7t4rn4chvrqleb8i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thedrinkbook",
+            "certificate_hash": "411d453d8781d998df915c2657b63ea5158899aa"
+          }
+        },
+        {
+          "client_id": "522025961153-ck096mbrpsac8jf6brtn2jvorgqcmrjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.thedrinkbook",
+            "certificate_hash": "20d80183933b960a50deaecddb8af47a3cc8091e"
+          }
+        },
+        {
           "client_id": "522025961153-072f774shek5f5s9ie72hcb4lenamao9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
