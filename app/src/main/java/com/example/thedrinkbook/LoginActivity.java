@@ -23,8 +23,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.net.ContentHandler;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 // Implements View.OnClickListener to override the onClick method
 
@@ -33,7 +31,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     DatabaseReference databaseUsers = drinkDatabase.child("Users");
 
     EditText etMail, etPassword;
-    Button btn_login;
+    Button btnLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +42,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mAuth = FirebaseAuth.getInstance();
 
         // initialize objects
-        InitializeObjects();
+        initializeObjects();
     }
 
-    private void InitializeObjects() {
+    private void initializeObjects() {
         etMail = findViewById(R.id.txtUsername);
         etPassword = findViewById(R.id.txtPassword);
-        btn_login = findViewById(R.id.bntLogin);
+        btnLogin = findViewById(R.id.bntLogin);
 
-        btn_login.setOnClickListener(LoginActivity.this);
+        btnLogin.setOnClickListener(LoginActivity.this);
     }
 
     @Override
@@ -119,6 +117,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(dataSnapshot.getValue() != null) {
                         final String valueRole = dataSnapshot.getValue().toString();
                         updateUI(valueRole);
+                        etMail.getText().clear();
+                        etPassword.getText().clear();
                     }
                     else{
                         Toast.makeText(LoginActivity.this,"User has no role.", Toast.LENGTH_LONG).show();
