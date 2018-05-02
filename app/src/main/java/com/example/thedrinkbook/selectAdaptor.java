@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +24,11 @@ public class selectAdaptor extends BaseAdapter {
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
     List<Drink> drinklist;
+    Drink drink;
+
+    TextView tvDrinkName;
+    EditText tvAmount;
+
 
 
     public selectAdaptor(Context context, List<Drink> drinklist)
@@ -29,6 +36,12 @@ public class selectAdaptor extends BaseAdapter {
         this.context = context;
         this.drinklist = drinklist;
     }
+
+    public void updateDrinks(List<Drink> drinkList){
+        this.drinklist = drinkList;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         if(drinklist != null)
@@ -65,10 +78,24 @@ public class selectAdaptor extends BaseAdapter {
         if (convertView == null)
         {
             LayoutInflater viewInflator = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            //convertView = viewInflator.inflate(R.layout.item_of_weatherlist, null);
+            convertView = viewInflator.inflate(R.layout.listviewselect, null);
         }
 
-        return null;
+        drink = (Drink) getItem(position);
+
+        if(drink != null)
+        {
+            tvDrinkName = convertView.findViewById(R.id.txtDrinkname);
+            tvDrinkName.setText(drink.Navn);
+            int amount = drink.Antal;
+            tvAmount = convertView.findViewById(R.id.txtAmount);
+            tvAmount.setText(String.valueOf(amount));
+
+        }
+        else {
+            return null;
+        }
+        return convertView;
 
     }
 
