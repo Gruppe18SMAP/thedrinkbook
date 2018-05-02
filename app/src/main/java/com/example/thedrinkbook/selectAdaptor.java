@@ -2,9 +2,11 @@ package com.example.thedrinkbook;
 
 
 import android.content.Context;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -27,7 +29,6 @@ public class selectAdaptor extends BaseAdapter {
     Drink drink;
 
     TextView tvDrinkName;
-    EditText tvAmount;
 
 
 
@@ -87,9 +88,9 @@ public class selectAdaptor extends BaseAdapter {
         {
             tvDrinkName = convertView.findViewById(R.id.txtDrinkname);
             tvDrinkName.setText(drink.Navn);
-            int amount = drink.Antal;
+            /*int amount = drink.Antal;
             tvAmount = convertView.findViewById(R.id.txtAmount);
-            tvAmount.setText(String.valueOf(amount));
+            tvAmount.setText(String.valueOf(amount));*/
 
         }
         else {

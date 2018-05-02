@@ -1,10 +1,16 @@
 package com.example.thedrinkbook;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -23,8 +29,11 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
     Button btnBuy, btnLogout;
     ListView lvDrinks;
-    ArrayList<Drink> drinks;
+    ArrayList<Drink> drinks, selectedDrinks;
     private selectAdaptor listviewAdapter;
+
+    // For the intent starting the Buy activity
+    public static final String SELECTEDDRINKS = "Selected drinks";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +42,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
         initializeObjects();
         drinks = new ArrayList<>();
+        selectedDrinks = new ArrayList<>();
 
         databaseDrinks.addChildEventListener(new ChildEventListener() {
             @Override
@@ -74,12 +84,32 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
         listviewAdapter = new selectAdaptor(this,drinks);
         lvDrinks.setAdapter(listviewAdapter);
+
+
     }
 
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
         if(viewId == R.id.bntBuy){
+            int elements = lvDrinks.getAdapter().getCount();
+            selectedDrinks.clear();
+            for (int e = 0; e < elements; e++){
+                view = lvDrinks.getAdapter().getView(e,null,null);
+                TextView tvName = findViewById(R.id.txtDrinkname);
+                EditText etAmount = findViewById(R.id.txtAmount);
+                int amount = Integer.parseInt(etAmount.getText().toString());
+                if(amount != 0){
+                    Drink drink = new Drink();
+                    drink.Navn = tvName.getText().toString();
+                    drink.Antal = amount;
+                    selectedDrinks.add(drink);
+                }
+            }
+
+            Intent buyIntent = new Intent(selectActivity.this, BuyActivity.class);
+            buyIntent.putExtra(SELECTEDDRINKS, selectedDrinks);
+            startActivityForResult(buyIntent,21);
             //OPEN BUY ACTIVITY
         }
         else if(viewId == R.id.bntLogout){
