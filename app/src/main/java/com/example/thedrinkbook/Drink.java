@@ -2,9 +2,13 @@ package com.example.thedrinkbook;
 
 public class Drink {
 
-    int antal;
-    String ikon;
-    String navn;
-    int pris;
+        int Antal;
+        String Ikon;
+        String Navn;
+        int Pris;
+
+        public Drink(){
+
+        }
 
 }

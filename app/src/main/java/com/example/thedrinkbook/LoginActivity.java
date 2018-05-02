@@ -58,7 +58,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onStart();
         // Check if user is signed in
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
+        checkRole(currentUser);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        etMail.getText().clear();
+        etPassword.getText().clear();
     }
 
     private void signIn(String mail, String password){
@@ -117,8 +124,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if(dataSnapshot.getValue() != null) {
                         final String valueRole = dataSnapshot.getValue().toString();
                         updateUI(valueRole);
-                        etMail.getText().clear();
-                        etPassword.getText().clear();
                     }
                     else{
                         Toast.makeText(LoginActivity.this,"User has no role.", Toast.LENGTH_LONG).show();
