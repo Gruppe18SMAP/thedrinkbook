@@ -28,8 +28,7 @@ public class selectAdaptor extends BaseAdapter {
     List<Drink> drinklist;
     Drink drink;
 
-    TextView tvDrinkName;
-
+    TextView tvDrinkName, tvDrinkPrice;
 
 
     public selectAdaptor(Context context, List<Drink> drinklist)
@@ -88,6 +87,10 @@ public class selectAdaptor extends BaseAdapter {
         {
             tvDrinkName = convertView.findViewById(R.id.txtDrinkname);
             tvDrinkName.setText(drink.Navn);
+            tvDrinkPrice = convertView.findViewById(R.id.txtDrinkPrice);
+            tvDrinkPrice.setText(String.valueOf(drink.Pris));
+
+
             /*int amount = drink.Antal;
             tvAmount = convertView.findViewById(R.id.txtAmount);
             tvAmount.setText(String.valueOf(amount));*/
@@ -96,6 +99,7 @@ public class selectAdaptor extends BaseAdapter {
         else {
             return null;
         }
+        convertView = convertView;
         return convertView;
 
     }

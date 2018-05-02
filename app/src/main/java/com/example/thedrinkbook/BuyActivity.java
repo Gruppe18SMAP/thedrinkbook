@@ -47,7 +47,8 @@ public class BuyActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishActivity(1);
+                setResult(RESULT_CANCELED);
+                finish();
             }
         });
     }
@@ -71,12 +72,12 @@ public class BuyActivity extends AppCompatActivity {
     private void getSelectedData()
     {
         //Gets the list of Drinks from SelectActivity
-        drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra("DrinkListExtra");
+        drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra(selectActivity.SELECTEDDRINKS);
 
         //Gets the total price
         for (int i = 0; i < drinkList.size(); i++) {
             drink = drinkList.get(i);
-            totalPrice = drink.pris+totalPrice;
+            totalPrice = drink.Pris*drink.Antal +totalPrice;
         }
 
         txtTotalPrice.setText(String.format("%d kroner", totalPrice));

@@ -94,22 +94,31 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         if(viewId == R.id.bntBuy){
             int elements = lvDrinks.getAdapter().getCount();
             selectedDrinks.clear();
+
             for (int e = 0; e < elements; e++){
-                view = lvDrinks.getAdapter().getView(e,null,null);
-                TextView tvName = findViewById(R.id.txtDrinkname);
-                EditText etAmount = findViewById(R.id.txtAmount);
-                int amount = Integer.parseInt(etAmount.getText().toString());
-                if(amount != 0){
+                View listView = lvDrinks.getChildAt(e);
+                TextView tvName = listView.findViewById(R.id.txtDrinkname);
+                TextView tvPrice = listView.findViewById(R.id.txtDrinkPrice);
+                EditText etAmount = listView.findViewById(R.id.txtAmount);
+                String stringAmount = etAmount.getText().toString();
+
+                Integer intAmount = 0;
+                if(!stringAmount.equals("")){
+                    intAmount = Integer.parseInt(stringAmount);
+                }
+
+                if(intAmount != 0){
                     Drink drink = new Drink();
                     drink.Navn = tvName.getText().toString();
-                    drink.Antal = amount;
+                    drink.Antal = intAmount;
+                    drink.Pris = Integer.parseInt(tvPrice.getText().toString());
                     selectedDrinks.add(drink);
                 }
             }
 
             Intent buyIntent = new Intent(selectActivity.this, BuyActivity.class);
             buyIntent.putExtra(SELECTEDDRINKS, selectedDrinks);
-            startActivityForResult(buyIntent,21);
+            startActivityForResult(buyIntent,12);
             //OPEN BUY ACTIVITY
         }
         else if(viewId == R.id.bntLogout){
@@ -117,5 +126,15 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
             finish();
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 12){
+            if(resultCode == RESULT_CANCELED){
+
+            }
+        }
     }
 }
