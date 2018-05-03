@@ -75,7 +75,6 @@ public class BuyActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void initiate()
