@@ -127,7 +127,6 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
             //OPEN BUY ACTIVITY
             Intent buyIntent = new Intent(selectActivity.this, BuyActivity.class);
-            buyIntent.putExtra(DATABASEDRINKS, drinks);
             buyIntent.putExtra(SELECTEDDRINKS, selectedDrinks);
             startActivityForResult(buyIntent,12);
         }
