@@ -20,4 +20,5 @@
     <string name="Name">Product name</string>
     <string name="Product_price">Price</string>
     <string name="Picture_drink">Picture</string>
+    <string name="merchant_id_generic">APPDK0000000000</string>
 </resources>
