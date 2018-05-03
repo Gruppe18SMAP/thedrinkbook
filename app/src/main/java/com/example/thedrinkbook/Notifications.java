@@ -21,7 +21,7 @@ public class Notifications {
             String description = "Notifikation fra DrinkBook";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
-            
+
         }
     }
 }
