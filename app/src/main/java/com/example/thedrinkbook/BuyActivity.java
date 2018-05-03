@@ -55,14 +55,16 @@ public class BuyActivity extends AppCompatActivity {
 
                 if(isMobilePayInstalled){
                     Payment payment = new Payment();
-                    payment.setProductPrice(new BigDecimal(10.0));
+                    payment.setProductPrice(new BigDecimal(totalPrice));
                     payment.setOrderId("testorder");
 
                     Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
 
                     startActivityForResult(paymentIntent, MOBILEPAY_PAYMENT_REQUEST_CODE);
-
-
+                }
+                else {
+                    Intent installMPIntent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
+                    startActivity(installMPIntent);
                 }
 
             }
@@ -97,6 +99,7 @@ public class BuyActivity extends AppCompatActivity {
     {
         //Gets the list of Drinks from SelectActivity
         drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra(selectActivity.SELECTEDDRINKS);
+
 
         //Gets the total price
         for (int i = 0; i < drinkList.size(); i++) {

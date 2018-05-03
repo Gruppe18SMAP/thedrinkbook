@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.util.CollectionUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class selectActivity extends AppCompatActivity implements View.OnClickListener {
@@ -97,7 +99,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
             for (int e = 0; e < elements; e++){
                 View listView = lvDrinks.getChildAt(e);
-                TextView tvName = listView.findViewById(R.id.txtDrinkname);
+                final TextView tvName = listView.findViewById(R.id.txtDrinkname);
                 TextView tvPrice = listView.findViewById(R.id.txtDrinkPrice);
                 EditText etAmount = listView.findViewById(R.id.txtAmount);
                 String stringAmount = etAmount.getText().toString();
@@ -108,18 +110,22 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
                 if(intAmount != 0){
-                    Drink drink = new Drink();
-                    drink.Navn = tvName.getText().toString();
-                    drink.Antal = intAmount;
-                    drink.Pris = Integer.parseInt(tvPrice.getText().toString());
-                    selectedDrinks.add(drink);
+                    Drink selectedDrink = new Drink();
+
+                    for(Drink drink : drinks){
+                        if(drink.Navn.equals(tvName.getText().toString())){
+                            selectedDrink = drink;
+                        }
+                    }
+                    selectedDrink.Antal = intAmount;
+                    selectedDrinks.add(selectedDrink);
                 }
             }
 
+            //OPEN BUY ACTIVITY
             Intent buyIntent = new Intent(selectActivity.this, BuyActivity.class);
             buyIntent.putExtra(SELECTEDDRINKS, selectedDrinks);
             startActivityForResult(buyIntent,12);
-            //OPEN BUY ACTIVITY
         }
         else if(viewId == R.id.bntLogout){
             FirebaseAuth.getInstance().signOut();
