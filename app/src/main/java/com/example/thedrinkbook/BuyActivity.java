@@ -1,13 +1,16 @@
 package com.example.thedrinkbook;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,6 +24,9 @@ import dk.danskebank.mobilepay.sdk.model.SuccessResult;
 
 
 public class BuyActivity extends AppCompatActivity {
+
+    DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
 
     ListView lvChosenDrinks;
     TextView txtTotalPrice;
@@ -55,14 +61,16 @@ public class BuyActivity extends AppCompatActivity {
 
                 if(isMobilePayInstalled){
                     Payment payment = new Payment();
-                    payment.setProductPrice(new BigDecimal(10.0));
+                    payment.setProductPrice(new BigDecimal(totalPrice));
                     payment.setOrderId("testorder");
 
                     Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
 
                     startActivityForResult(paymentIntent, MOBILEPAY_PAYMENT_REQUEST_CODE);
-
-
+                }
+                else {
+                    Intent installMPIntent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
+                    startActivity(installMPIntent);
                 }
 
             }
@@ -98,6 +106,7 @@ public class BuyActivity extends AppCompatActivity {
         //Gets the list of Drinks from SelectActivity
         drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra(selectActivity.SELECTEDDRINKS);
 
+
         //Gets the total price
         for (int i = 0; i < drinkList.size(); i++) {
             drink = drinkList.get(i);
@@ -116,6 +125,11 @@ public class BuyActivity extends AppCompatActivity {
                 public void onSuccess(SuccessResult successResult) {
                     Intent confirmIntent = new Intent(BuyActivity.this, confirmActivity.class);
                     startActivity(confirmIntent);
+                    for(Drink boughtDrink : drinkList){
+                        DatabaseReference key = databaseDrinks.child(boughtDrink.Key);
+                        
+
+                    }
                 }
 
                 @Override
