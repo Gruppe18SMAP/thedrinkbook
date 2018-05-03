@@ -9,6 +9,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -21,6 +24,9 @@ import dk.danskebank.mobilepay.sdk.model.SuccessResult;
 
 
 public class BuyActivity extends AppCompatActivity {
+
+    DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
 
     ListView lvChosenDrinks;
     TextView txtTotalPrice;
@@ -119,6 +125,11 @@ public class BuyActivity extends AppCompatActivity {
                 public void onSuccess(SuccessResult successResult) {
                     Intent confirmIntent = new Intent(BuyActivity.this, confirmActivity.class);
                     startActivity(confirmIntent);
+                    for(Drink boughtDrink : drinkList){
+                        DatabaseReference key = databaseDrinks.child(boughtDrink.Key);
+                        
+
+                    }
                 }
 
                 @Override

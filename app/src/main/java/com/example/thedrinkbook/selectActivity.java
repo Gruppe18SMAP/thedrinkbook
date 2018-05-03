@@ -50,6 +50,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Drink drink = dataSnapshot.getValue(Drink.class);
+                drink.Key = dataSnapshot.getKey();
                 drinks.add(drink);
                 listviewAdapter.updateDrinks(drinks);
             }
