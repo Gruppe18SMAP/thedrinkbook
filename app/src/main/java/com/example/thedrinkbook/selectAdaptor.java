@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class selectAdaptor extends BaseAdapter {
     Drink drink;
 
     TextView tvDrinkName, tvDrinkPrice;
+    ImageView imgSodaicon;
 
 
     public selectAdaptor(Context context, List<Drink> drinklist)
@@ -90,6 +93,10 @@ public class selectAdaptor extends BaseAdapter {
             tvDrinkPrice = convertView.findViewById(R.id.txtDrinkPrice);
             tvDrinkPrice.setText(String.valueOf(drink.Pris));
 
+
+            imgSodaicon  = convertView.findViewById(R.id.imgSodaicon);
+
+            Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 
             /*int amount = drink.Antal;
             tvAmount = convertView.findViewById(R.id.txtAmount);
