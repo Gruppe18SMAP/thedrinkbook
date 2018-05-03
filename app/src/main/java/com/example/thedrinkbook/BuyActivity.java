@@ -76,7 +76,7 @@ public class BuyActivity extends AppCompatActivity {
         //Gets the total price
         for (int i = 0; i < drinkList.size(); i++) {
             drink = drinkList.get(i);
-            totalPrice = drink.pris+totalPrice;
+            totalPrice = drink.Pris +totalPrice;
         }
 
         txtTotalPrice.setText(String.format("%d kroner", totalPrice));

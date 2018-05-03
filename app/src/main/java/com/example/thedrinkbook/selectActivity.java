@@ -80,6 +80,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         int viewId = view.getId();
         if(viewId == R.id.bntBuy){
+
             //OPEN BUY ACTIVITY
         }
         else if(viewId == R.id.bntLogout){
