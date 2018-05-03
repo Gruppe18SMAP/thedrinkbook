@@ -7,13 +7,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import dk.danskebank.mobilepay.sdk.Country;
 import dk.danskebank.mobilepay.sdk.MobilePay;
+import dk.danskebank.mobilepay.sdk.ResultCallback;
+import dk.danskebank.mobilepay.sdk.model.FailureResult;
 import dk.danskebank.mobilepay.sdk.model.Payment;
+import dk.danskebank.mobilepay.sdk.model.SuccessResult;
 
 
 public class BuyActivity extends AppCompatActivity {
@@ -27,7 +31,7 @@ public class BuyActivity extends AppCompatActivity {
     Drink drink;
     int totalPrice;
 
-
+    int MOBILEPAY_PAYMENT_REQUEST_CODE = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,6 @@ public class BuyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //Implement the mobileCode here.
-
-                int MOBILEPAY_PAYMENT_REQUEST_CODE = 14;
 
                 boolean isMobilePayInstalled = MobilePay.getInstance().isMobilePayInstalled(getApplicationContext());
 
@@ -106,5 +108,29 @@ public class BuyActivity extends AppCompatActivity {
         txtTotalPrice.setText(String.format("%d kroner", totalPrice));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == MOBILEPAY_PAYMENT_REQUEST_CODE){
+            MobilePay.getInstance().handleResult(resultCode, data, new ResultCallback() {
+                @Override
+                public void onSuccess(SuccessResult successResult) {
+                    Intent confirmIntent = new Intent(BuyActivity.this, confirmActivity.class);
+                    startActivity(confirmIntent);
+                }
 
+                @Override
+                public void onFailure(FailureResult failureResult) {
+                    Toast failureToast = Toast.makeText(BuyActivity.this,"Betaling mislykkedes", Toast.LENGTH_LONG);
+                    failureToast.show();
+                }
+
+                @Override
+                public void onCancel() {
+                    Toast cancelToast = Toast.makeText(BuyActivity.this,"Betaling annulleret", Toast.LENGTH_LONG);
+                    cancelToast.show();
+                }
+            });
+        }
+    }
 }
