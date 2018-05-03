@@ -1,6 +1,8 @@
 package com.example.thedrinkbook;
 
-public class Drink {
+import java.io.Serializable;
+
+public class Drink implements Serializable{
 
         int Antal;
         String Ikon;

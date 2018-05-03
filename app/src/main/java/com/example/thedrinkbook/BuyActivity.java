@@ -8,8 +8,13 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
+
+import dk.danskebank.mobilepay.sdk.Country;
+import dk.danskebank.mobilepay.sdk.MobilePay;
+import dk.danskebank.mobilepay.sdk.model.Payment;
+
 
 public class BuyActivity extends AppCompatActivity {
 
@@ -29,6 +34,8 @@ public class BuyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
 
+        MobilePay.getInstance().init(getString(R.string.merchant_id_generic), Country.DENMARK);
+
         initiate();
 
         getSelectedData();
@@ -40,14 +47,30 @@ public class BuyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //Implement the mobileCode here.
 
-                Intent mobileIntent = new Intent();
+                int MOBILEPAY_PAYMENT_REQUEST_CODE = 14;
+
+                boolean isMobilePayInstalled = MobilePay.getInstance().isMobilePayInstalled(getApplicationContext());
+
+                if(isMobilePayInstalled){
+                    Payment payment = new Payment();
+                    payment.setProductPrice(new BigDecimal(10.0));
+                    payment.setOrderId("testorder");
+
+                    Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
+
+                    startActivityForResult(paymentIntent, MOBILEPAY_PAYMENT_REQUEST_CODE);
+
+
+                }
+
             }
         });
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishActivity(1);
+                setResult(RESULT_CANCELED);
+                finish();
             }
         });
     }
@@ -71,12 +94,12 @@ public class BuyActivity extends AppCompatActivity {
     private void getSelectedData()
     {
         //Gets the list of Drinks from SelectActivity
-        drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra("DrinkListExtra");
+        drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra(selectActivity.SELECTEDDRINKS);
 
         //Gets the total price
         for (int i = 0; i < drinkList.size(); i++) {
             drink = drinkList.get(i);
-            totalPrice = drink.Pris +totalPrice;
+            totalPrice = drink.Pris*drink.Antal +totalPrice;
         }
 
         txtTotalPrice.setText(String.format("%d kroner", totalPrice));
