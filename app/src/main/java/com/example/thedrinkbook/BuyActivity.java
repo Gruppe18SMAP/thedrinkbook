@@ -103,7 +103,9 @@ public class BuyActivity extends AppCompatActivity {
 
     private void getSelectedData()
     {
-        //Gets the list of Drinks from SelectActivity
+        //Get the list of
+
+        //Gets the list of selected drinks from SelectActivity
         drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra(selectActivity.SELECTEDDRINKS);
 
 
@@ -125,11 +127,6 @@ public class BuyActivity extends AppCompatActivity {
                 public void onSuccess(SuccessResult successResult) {
                     Intent confirmIntent = new Intent(BuyActivity.this, confirmActivity.class);
                     startActivity(confirmIntent);
-                    for(Drink boughtDrink : drinkList){
-                        DatabaseReference key = databaseDrinks.child(boughtDrink.Key);
-                        
-
-                    }
                 }
 
                 @Override
