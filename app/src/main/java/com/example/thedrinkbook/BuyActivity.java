@@ -1,7 +1,12 @@
 package com.example.thedrinkbook;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +34,8 @@ public class BuyActivity extends AppCompatActivity {
     private static final String BOUGHTDRINKS = "Drinks bought" ;
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
+
+    private BackgroundService bgservice;
 
     ListView lvChosenDrinks;
     TextView txtTotalPrice;
@@ -103,6 +110,26 @@ public class BuyActivity extends AppCompatActivity {
         lvChosenDrinks.setAdapter(BA);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
+            bgservice = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            bgservice = null;
+        }
+    };
+
     private void getSelectedData()
     {
         //Get the list of
@@ -149,5 +176,16 @@ public class BuyActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
     }
 }

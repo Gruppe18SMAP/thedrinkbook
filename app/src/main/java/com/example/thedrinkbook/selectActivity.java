@@ -1,7 +1,14 @@
 package com.example.thedrinkbook;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -20,6 +27,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +42,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
     ListView lvDrinks;
     ArrayList<Drink> drinks, selectedDrinks;
     private selectAdaptor listviewAdapter;
+    private BackgroundService bgservice;
 
     // For the intent starting the Buy activity
     public static final String SELECTEDDRINKS = "Selected drinks";
@@ -45,38 +54,6 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_select);
 
         initializeObjects();
-        drinks = new ArrayList<>();
-        selectedDrinks = new ArrayList<>();
-
-        databaseDrinks.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Drink drink = dataSnapshot.getValue(Drink.class);
-                drink.Key = dataSnapshot.getKey();
-                drinks.add(drink);
-                listviewAdapter.updateDrinks(drinks);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     private void initializeObjects() {
@@ -92,6 +69,41 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        startService(serviceIntent);
+        bindService(serviceIntent,serviceConnection,Context.BIND_AUTO_CREATE);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
+    }
+
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
+            bgservice = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            bgservice = null;
+        }
+    };
+
+    private BroadcastReceiver onBackgroundServiceLoadResult = new BroadcastReceiver(){
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            drinks = (ArrayList<Drink>)intent.getSerializableExtra(BackgroundService.LOAD_RESULT);
+            listviewAdapter.updateDrinks(drinks);
+        }
+    };
 
     @Override
     public void onClick(View view) {
@@ -145,5 +157,17 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
             }
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
     }
 }
