@@ -26,6 +26,7 @@ import java.util.List;
 
 public class selectActivity extends AppCompatActivity implements View.OnClickListener {
 
+
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
 
@@ -36,6 +37,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
     // For the intent starting the Buy activity
     public static final String SELECTEDDRINKS = "Selected drinks";
+    public static final String DATABASEDRINKS = "Drinks in database";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

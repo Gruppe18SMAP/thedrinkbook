@@ -22,7 +22,12 @@
         <activity android:name=".confirmActivity" />
         <activity android:name=".AdminstratorOverViewActivity" />
         <activity android:name=".AddDrinksActivity" />
-        <activity android:name=".AddProductActivity"></activity>
+        <activity android:name=".AddProductActivity" />
+
+        <service
+            android:name=".BackgroundService"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>
