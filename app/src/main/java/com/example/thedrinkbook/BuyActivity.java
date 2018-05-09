@@ -132,8 +132,6 @@ public class BuyActivity extends AppCompatActivity {
 
     private void getSelectedData()
     {
-        //Get the list of
-
         //Gets the list of selected drinks from SelectActivity
         drinkList = (ArrayList<Drink>) getIntent().getSerializableExtra(selectActivity.SELECTEDDRINKS);
 
@@ -157,10 +155,11 @@ public class BuyActivity extends AppCompatActivity {
                     Intent confirmIntent = new Intent(BuyActivity.this, confirmActivity.class);
                     startActivity(confirmIntent);
 
-                    Intent serviceIntent = new Intent(BuyActivity.this, BackgroundService.class);
+                    bgservice.boughtFromDatabase(drinkList);
+                    /*Intent serviceIntent = new Intent(BuyActivity.this, BackgroundService.class);
                     serviceIntent.setAction(PAYED);
                     serviceIntent.putExtra(BOUGHTDRINKS,drinkList);
-                    startService(serviceIntent);
+                    startService(serviceIntent);*/
                 }
 
                 @Override

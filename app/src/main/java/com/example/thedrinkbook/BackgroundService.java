@@ -110,6 +110,7 @@ public class BackgroundService extends Service {
                 {
                     broadcastLoadResult(drinksList);
                 }
+
             }
 
             @Override
@@ -148,8 +149,18 @@ public class BackgroundService extends Service {
         return binder;
     }
 
-    private void boughtFromDatabase(ArrayList<Drink> boughtDrinks) {
-        final Drink[] databaseDrink = new Drink[1];
+    public void boughtFromDatabase(ArrayList<Drink> boughtDrinks) {
+        for(Drink boughtDrink : boughtDrinks) {
+            for(Drink dbDrink : drinksList) {
+                if(boughtDrink.Key.equals(dbDrink.Key)) {
+                    int antal = dbDrink.Antal - boughtDrink.Antal;
+                    drinkDatabase.child(dbDrink.Key).child("Antal").setValue(antal);
+                }
+            }
+        }
+
+
+        /*final Drink[] databaseDrink = new Drink[1];
         for(Drink drink : boughtDrinks){
             DatabaseReference key = databaseDrinks.child(drink.Key);
             key.addValueEventListener(new ValueEventListener() {
@@ -165,7 +176,7 @@ public class BackgroundService extends Service {
             });
             int value = databaseDrink[0].Antal - drink.Antal;
             key.child("Antal").setValue(value);
-        }
+        }*/
     }
 
     //Husk at kalde setNotification på den listener der har til funktion af tjekke hvor mange der er tilbage
