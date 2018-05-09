@@ -1,5 +1,6 @@
 package com.example.thedrinkbook;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
     Button btnRefill, btnLogout;
     ListView lvDrinks;
 
+    static final int REQUEST_DRINKS= 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,8 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         int viewId = view.getId();
         if(viewId == R.id.bntFill){
             //OPEN FILL ACTIVITY
+            Intent addDrinksIntent = new Intent(AdminstratorOverViewActivity.this, AddDrinksActivity.class);
+            startActivityForResult(addDrinksIntent, REQUEST_DRINKS);
         }
         else if(viewId == R.id.bntLogoutAdminOverview){
             FirebaseAuth.getInstance().signOut();
