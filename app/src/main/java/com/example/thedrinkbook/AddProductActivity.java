@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +25,13 @@ public class AddProductActivity extends AppCompatActivity {
 
         initiate();
 
+        ivProductPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeAPhoto();
+            }
+        });
+
     }
 
     public void getproduct()
@@ -39,6 +47,7 @@ public class AddProductActivity extends AppCompatActivity {
 
         ivProductPicture = findViewById(R.id.ivProductPicture);
     }
+
 
     //inspired from https://developer.android.com/training/camera/photobasics.
     //resolveActivity is called to make sure the app does not crash, if the app cannot handle the intent.
