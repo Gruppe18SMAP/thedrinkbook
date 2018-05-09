@@ -1,11 +1,14 @@
 package com.example.thedrinkbook;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -17,6 +20,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
+import java.security.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class BackgroundService extends Service {
@@ -162,6 +167,35 @@ public class BackgroundService extends Service {
             key.child("Antal").setValue(value);
         }
     }
+
+    //Husk at kalde setNotification på den listener der har til funktion af tjekke hvor mange der er tilbage
+    //Notifikationfunktionalitet
+
+    Notification notification;
+    Notifications notifications;
+    private int notificationsID = 5;
+    private SimpleDateFormat timeFormat;
+    private Timestamp timestamp;
+
+    private void setNotification() {
+        notifications = new Notifications(this);
+
+        notification = new NotificationCompat.Builder(this, Notifications.CHANNEL_ID)
+                .setSmallIcon(R.mipmap.drinkslogo)
+                .setContentText("Der er mindre end 5 stk af en drikkevarer")
+                .setContentTitle("Thedrinkbook")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(notifications.pendingIntent)
+                .build();
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationsID, notification);
+
+
+
+    }
+
+
 
 
 }

@@ -22,7 +22,8 @@ public class confirmActivity extends AppCompatActivity {
         bntLogOutConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishActivity(0);
+                FirebaseAuth.getInstance().signOut();
+                finish();
             }
         });
 
@@ -30,8 +31,9 @@ public class confirmActivity extends AppCompatActivity {
         bntOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                finish();
+
+                finishActivity(0);
+
             }
         });
 
