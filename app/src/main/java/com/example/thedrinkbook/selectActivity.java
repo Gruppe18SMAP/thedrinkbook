@@ -131,6 +131,8 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         else if(viewId == R.id.bntLogout){
             FirebaseAuth.getInstance().signOut();
             finish();
+
+
         }
 
     }
