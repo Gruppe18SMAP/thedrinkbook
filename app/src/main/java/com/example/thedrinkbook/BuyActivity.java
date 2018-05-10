@@ -47,6 +47,8 @@ public class BuyActivity extends AppCompatActivity {
     int totalPrice;
 
     int MOBILEPAY_PAYMENT_REQUEST_CODE = 14;
+    int CONFIRM_REQUEST_CODE = 142;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,32 +150,38 @@ public class BuyActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == MOBILEPAY_PAYMENT_REQUEST_CODE){
-            MobilePay.getInstance().handleResult(resultCode, data, new ResultCallback() {
-                @Override
-                public void onSuccess(SuccessResult successResult) {
-                    Intent confirmIntent = new Intent(BuyActivity.this, confirmActivity.class);
-                    startActivity(confirmIntent);
+        if(resultCode == RESULT_OK) {
+            if (requestCode == MOBILEPAY_PAYMENT_REQUEST_CODE) {
+                MobilePay.getInstance().handleResult(resultCode, data, new ResultCallback() {
+                    @Override
+                    public void onSuccess(SuccessResult successResult) {
+                        Intent confirmIntent = new Intent(BuyActivity.this, confirmActivity.class);
+                        startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
 
-                    bgservice.boughtFromDatabase(drinkList);
+                        bgservice.boughtFromDatabase(drinkList);
                     /*Intent serviceIntent = new Intent(BuyActivity.this, BackgroundService.class);
                     serviceIntent.setAction(PAYED);
                     serviceIntent.putExtra(BOUGHTDRINKS,drinkList);
                     startService(serviceIntent);*/
-                }
+                    }
 
-                @Override
-                public void onFailure(FailureResult failureResult) {
-                    Toast failureToast = Toast.makeText(BuyActivity.this,"Betaling mislykkedes", Toast.LENGTH_LONG);
-                    failureToast.show();
-                }
+                    @Override
+                    public void onFailure(FailureResult failureResult) {
+                        Toast failureToast = Toast.makeText(BuyActivity.this, "Betaling mislykkedes", Toast.LENGTH_LONG);
+                        failureToast.show();
+                    }
 
-                @Override
-                public void onCancel() {
-                    Toast cancelToast = Toast.makeText(BuyActivity.this,"Betaling annulleret", Toast.LENGTH_LONG);
-                    cancelToast.show();
-                }
-            });
+                    @Override
+                    public void onCancel() {
+                        Toast cancelToast = Toast.makeText(BuyActivity.this, "Betaling annulleret", Toast.LENGTH_LONG);
+                        cancelToast.show();
+                    }
+                });
+            }
+            if (requestCode == CONFIRM_REQUEST_CODE) {
+                setResult(RESULT_OK);
+                finish();
+            }
         }
     }
 

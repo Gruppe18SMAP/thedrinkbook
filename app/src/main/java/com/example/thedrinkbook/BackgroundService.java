@@ -120,7 +120,15 @@ public class BackgroundService extends Service {
                 Drink drink = dataSnapshot.getValue(Drink.class);
                 drink.Key = dataSnapshot.getKey();
 
-                Iterator<Drink> iterator = drinksList.iterator();
+                for(int i = 0; i < drinksList.size(); i++){
+                    if(drinksList.get(i).Key == drink.Key){
+                        drinksList.remove(i);
+                        drinksList.add(i,drink);
+                        broadcastLoadResult(drinksList);
+                    }
+                }
+
+                /*Iterator<Drink> iterator = drinksList.iterator();
 
                 while(iterator.hasNext()){
                     Drink dbdrink = iterator.next();
@@ -129,7 +137,7 @@ public class BackgroundService extends Service {
                         iterator.remove();
                         drinksList.add(index, drink);
                     }
-                }
+                }*/
 
                 /*for(Drink dbdrink : drinksList){
                     if(dbdrink.Key == drink.Key){
