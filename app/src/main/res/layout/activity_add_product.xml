@@ -8,8 +8,8 @@
 
     <Button
         android:id="@+id/bntCancelAddProduct"
-        android:layout_width="119dp"
-        android:layout_height="41dp"
+        android:layout_width="120dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="150dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
@@ -113,11 +113,11 @@
 
     <Button
         android:id="@+id/bntSaveAddProduct"
-        android:layout_width="119dp"
+        android:layout_width="120dp"
         android:layout_height="45dp"
         android:layout_marginBottom="150dp"
-        android:layout_marginStart="40dp"
         android:layout_marginLeft="40dp"
+        android:layout_marginStart="40dp"
         android:background="#c3dceb"
         android:text="@string/save"
         android:textColor="#17637d"
