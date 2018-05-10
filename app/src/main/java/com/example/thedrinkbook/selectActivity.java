@@ -41,7 +41,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
     Button btnBuy, btnLogout;
     ListView lvDrinks;
-    ArrayList<Drink> drinks, selectedDrinks;
+    ArrayList<Drink> drinks, selectedDrinks, emptyInDatabase;
     private selectAdaptor listviewAdapter;
     private BackgroundService bgservice;
     Intent serviceIntent;
@@ -63,6 +63,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
     private void initializeObjects() {
         drinks = new ArrayList<>();
         selectedDrinks = new ArrayList<>();
+        emptyInDatabase = new ArrayList<>();
         btnBuy = findViewById(R.id.bntBuy);
         btnLogout = findViewById(R.id.bntLogout);
         lvDrinks = findViewById(R.id.lvDrinksUser);
@@ -72,8 +73,6 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
         listviewAdapter = new selectAdaptor(this,drinks);
         lvDrinks.setAdapter(listviewAdapter);
-
-
     }
 
     @Override
@@ -117,6 +116,9 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
             if(!selectedDrinks.isEmpty()){
                 selectedDrinks.clear();
             }
+            if(!emptyInDatabase.isEmpty()){
+                emptyInDatabase.clear();
+            }
 
                 for (int e = 0; e < elements; e++) {
                     View listView = lvDrinks.getChildAt(e);
@@ -135,11 +137,18 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
                         for (Drink drink : drinks) {
                             if (drink.Navn.equals(tvName.getText().toString())) {
-                                selectedDrink = new Drink(drink);
-                                selectedDrink.Antal = intAmount;
+                                if(drink.Antal > 0) {
+                                    selectedDrink = new Drink(drink);
+                                    selectedDrink.Antal = intAmount;
+                                }
+                                else{
+                                    emptyInDatabase.add(drink);
+                                }
                             }
                         }
-                        selectedDrinks.add(selectedDrink);
+                        if(selectedDrink.Navn != null) {
+                            selectedDrinks.add(selectedDrink);
+                        }
                     }
                 }
 
@@ -148,9 +157,23 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
                     Intent buyIntent = new Intent(selectActivity.this, BuyActivity.class);
                     buyIntent.putExtra(SELECTEDDRINKS, selectedDrinks);
                     startActivityForResult(buyIntent, 12);
-                } else{
+                } else if(emptyInDatabase.isEmpty()){
                     Toast noItemsToast = Toast.makeText(selectActivity.this,R.string.no_chosen_items, Toast.LENGTH_LONG);
                     noItemsToast.show();
+                } else if(!emptyInDatabase.isEmpty()){
+                    String emptyDrinks = new String();
+                    for(int e = 0; e < emptyInDatabase.size(); e++){
+                        if(e == 0){
+                            emptyDrinks = emptyDrinks + emptyInDatabase.get(e).Navn;
+                        }
+                        else{
+                            emptyDrinks = emptyDrinks + ", " + emptyInDatabase.get(e).Navn;
+                        }
+                    }
+
+                    String text = getResources().getString(R.string.empty_database,emptyDrinks);
+                    Toast emptyDBToast = Toast.makeText(selectActivity.this, text, Toast.LENGTH_LONG);
+                    emptyDBToast.show();
                 }
 
             }
