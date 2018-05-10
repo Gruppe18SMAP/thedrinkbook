@@ -64,7 +64,7 @@ public class AddDrinksActivity extends AppCompatActivity {
                     TextView tvPrice = lv.findViewById(R.id.txtAmount);
                     String stringAmount = tvPrice.getText().toString();
 
-                    
+
                 }
             }
         });
