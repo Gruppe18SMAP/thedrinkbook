@@ -28,6 +28,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
     Button btnRefill, btnLogout;
     ListView lvDrinksAdmin;
     ArrayList<Drink> drinks;
+    Intent serviceIntent;
 
     private AdminOverviewAdaptor listviewAdapter;
     private BackgroundService bgservice;
@@ -39,6 +40,8 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
        setContentView(R.layout.activity_adminstrator_over_view);
 
        initializeObjects();
+        serviceIntent = new Intent(this, BackgroundService.class);
+        startService(serviceIntent);
     }
 
     private void initializeObjects() {
@@ -49,7 +52,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         btnRefill.setOnClickListener(AdminstratorOverViewActivity.this);
         btnLogout.setOnClickListener(AdminstratorOverViewActivity.this);
 
-    //    listviewAdapter = new AdminOverviewAdaptor(this,drinks);
+        listviewAdapter = new AdminOverviewAdaptor(this, drinks);
         lvDrinksAdmin.setAdapter(listviewAdapter);
     }
 
@@ -66,18 +69,12 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
             finish();
         }
 
-
-
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        Intent serviceIntent = new Intent(this, BackgroundService.class);
-        startService(serviceIntent);
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
 
         IntentFilter filter = new IntentFilter();
@@ -107,7 +104,26 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         }
     };
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 12){
+            if(resultCode == RESULT_CANCELED){
 
+            }
+        }
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
+    }
 }
+

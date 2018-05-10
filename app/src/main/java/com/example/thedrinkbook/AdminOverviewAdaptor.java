@@ -25,7 +25,7 @@ public class AdminOverviewAdaptor extends BaseAdapter {
     ImageView imgSodaicon;
     TextView txtDrinkname, txtAmount;
 
-    public void AdminOverviewAdaptor(Context context, List<Drink> drinklist){
+    public AdminOverviewAdaptor(Context context, List<Drink> drinklist){
         this.context = context;
         this.drinklist = drinklist;
 
