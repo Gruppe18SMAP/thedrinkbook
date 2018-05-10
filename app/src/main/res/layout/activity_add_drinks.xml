@@ -7,23 +7,10 @@
     tools:context="com.example.thedrinkbook.AddDrinksActivity">
 
     <Button
-        android:id="@+id/bntDeleteProduct"
-        android:layout_width="119dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="16dp"
-        android:background="#c3dceb"
-        android:text="@string/Delete_Product"
-        android:textColor="#17637d"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bntCancelAdmin" />
-
-    <Button
         android:id="@+id/bntAddProduct"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="16dp"
         android:background="#c3dceb"
         android:text="@string/Add_product"
@@ -36,8 +23,8 @@
         android:id="@+id/bntSaveAddProduct"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="20dp"
         android:background="#c3dceb"
         android:text="@string/save_refilling"
         android:textColor="#17637d"
@@ -76,8 +63,8 @@
         android:id="@+id/bntCancelAdmin"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginTop="84dp"
         android:background="#c3dceb"
         android:text="@string/cancel"
         android:textColor="#17637d"

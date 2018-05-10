@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -64,8 +65,29 @@ public class AddDrinksActivity extends AppCompatActivity {
                     TextView tvPrice = lv.findViewById(R.id.txtAmount);
                     String stringAmount = tvPrice.getText().toString();
 
+                    Integer intAmount = 0;
+                    if (!stringAmount.equals("")) {
+                        intAmount = Integer.parseInt(stringAmount);
+                    }
+
+
+                    if(intAmount != 0)
+                    {
+                        Drink updateddrink = new Drink();
+
+                        for (Drink drink : drinkList) {
+                            if (drink.Navn.equals(tvName.getText().toString())) {
+                                updateddrink= new Drink(drink);
+                                updateddrink.Antal = intAmount;
+                            }
+                        }
+                        updateList.add(updateddrink);
+
+                    }
 
                 }
+                bgservice.updateAmount(updateList);
+                finish();
             }
         });
     }
@@ -75,7 +97,6 @@ public class AddDrinksActivity extends AppCompatActivity {
         bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
         bntAddProduct = findViewById(R.id.bntAddProduct);
         bntCancelAdmin = findViewById(R.id.bntCancelAdmin);
-        bntDeleteProduct = findViewById(R.id.bntDeleteProduct);
         lvAddDrinksAdmin = findViewById(R.id.lvAddDrinksAdmin);
 
         addDrinksAdaptor = new AddDrinksAdaptor(this, drinkList);
@@ -84,14 +105,17 @@ public class AddDrinksActivity extends AppCompatActivity {
         drinkList = new ArrayList<>();
         bgservice = new BackgroundService();
         updateList = new ArrayList<>();
+
+        serviceIntent = new Intent(this, BackgroundService.class);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        serviceIntent = new Intent(this, BackgroundService.class);
-        startService(serviceIntent);
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+
+
+
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
@@ -103,6 +127,9 @@ public class AddDrinksActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
             bgservice = binder.getService();
+
+            drinkList = bgservice.getDrinksList();
+            addDrinksAdaptor.updateDrinkList(drinkList);
         }
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
@@ -129,6 +156,5 @@ public class AddDrinksActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
-        stopService(serviceIntent);
     }
 }

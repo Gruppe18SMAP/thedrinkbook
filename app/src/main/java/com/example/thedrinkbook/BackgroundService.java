@@ -61,12 +61,11 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         loadFromDrinksDatabase();
-
         return START_NOT_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }
 
-    private void loadFromDrinksDatabase() {
+    public void loadFromDrinksDatabase() {
         drinkDatabase.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -127,27 +126,6 @@ public class BackgroundService extends Service {
                         broadcastLoadResult(drinksList);
                     }
                 }
-
-                /*Iterator<Drink> iterator = drinksList.iterator();
-
-                while(iterator.hasNext()){
-                    Drink dbdrink = iterator.next();
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        iterator.remove();
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-                /*for(Drink dbdrink : drinksList){
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        drinksList.remove(dbdrink);
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-
             }
 
             @Override
@@ -167,12 +145,15 @@ public class BackgroundService extends Service {
         });
     }
 
+    public ArrayList<Drink> getDrinksList() {
+        return drinksList;
+    }
 
     private void broadcastLoadResult(ArrayList<Drink> listOfDrinks) {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(BROADCAST_BACKGROUNDSERVICE_LOAD);
         broadcastIntent.putExtra(LOAD_RESULT, listOfDrinks);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
     }
 
     @Nullable
@@ -209,6 +190,18 @@ public class BackgroundService extends Service {
             int value = databaseDrink[0].Antal - drink.Antal;
             key.child("Antal").setValue(value);
         }*/
+    }
+
+    public void updateAmount(ArrayList<Drink> updatedDrinks){
+        for(Drink updatedDrink : updatedDrinks) {
+            for(Drink dbDrink : drinksList) {
+                if(updatedDrink.Key.equals(dbDrink.Key)) {
+                    int amount = dbDrink.Antal + updatedDrink.Antal;
+                    databaseDrinks.child(dbDrink.Key).child("Antal").setValue(amount);
+                }
+            }
+        }
+
     }
 
     //Husk at kalde setNotification på den listener der har til funktion af tjekke hvor mange der er tilbage
