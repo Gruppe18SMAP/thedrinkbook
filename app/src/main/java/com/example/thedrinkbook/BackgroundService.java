@@ -121,7 +121,7 @@ public class BackgroundService extends Service {
                 drink.Key = dataSnapshot.getKey();
 
                 for(int i = 0; i < drinksList.size(); i++){
-                    if(drinksList.get(i).Key == drink.Key){
+                    if(drinksList.get(i).Key.equals(drink.Key)){
                         drinksList.remove(i);
                         drinksList.add(i,drink);
                         broadcastLoadResult(drinksList);
