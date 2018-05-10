@@ -168,7 +168,16 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
             if(resultCode == RESULT_CANCELED){
 
             }
+            if (resultCode == RESULT_OK){
+                int elements = lvDrinks.getAdapter().getCount();
+                for (int e = 0; e < elements; e++) {
+                    View listView = lvDrinks.getChildAt(e);
+                    EditText etAmount = listView.findViewById(R.id.txtAmount);
+                    etAmount.setText("");
+                }
+            }
         }
+
     }
 
     @Override
