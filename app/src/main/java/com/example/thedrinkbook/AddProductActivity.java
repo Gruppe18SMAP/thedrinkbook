@@ -23,7 +23,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 
-    Drink drink;
+
     String icon;
 
 
@@ -60,8 +60,18 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-    public void uploadProductToFirebase() {
+    public void initiate() {
+        txtProductName = findViewById(R.id.txtProductName);
+        txtProductPrice = findViewById(R.id.txtProductPrice);
 
+        ivProductPicture = findViewById(R.id.ivProductPicture);
+
+        bntCancelAddProduct = findViewById(R.id.bntCancelAddProduct);
+        bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
+    }
+
+    public void uploadProductToFirebase() {
+        Drink drink = new Drink();
         drink.Navn = txtProductName.getText().toString();
         drink.Pris = Integer.parseInt(txtProductPrice.getText().toString());
         drink.Key = drink.Navn.toLowerCase().replace(" ", "");
@@ -79,16 +89,6 @@ public class AddProductActivity extends AppCompatActivity {
         }
 
 
-    }
-
-    public void initiate() {
-        txtProductName = findViewById(R.id.txtProductName);
-        txtProductPrice = findViewById(R.id.txtProductPrice);
-
-        ivProductPicture = findViewById(R.id.ivProductPicture);
-
-        bntCancelAddProduct = findViewById(R.id.bntCancelAddProduct);
-        bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
     }
 
 
