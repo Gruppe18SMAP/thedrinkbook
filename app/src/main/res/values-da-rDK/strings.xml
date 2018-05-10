@@ -8,7 +8,7 @@
     <string name="logout">LOG UD</string>
     <string name="chosen">Du har valgt:</string>
     <string name="totalValue">Samlet pris</string>
-    <string name="cancel">ANNULLER</string>
+    <string name="cancel">ANNULLÉR</string>
     <string name="buytext">Når du tyrkker \"betal\" sendes du automatisk over i MobilePay app. Efter endt betaling åbner The Drink Book automatisk igen.</string>
     <string name="completed">Betalingen er gennemført</string>
     <string name="refill">"FYLD OP "</string>
@@ -25,4 +25,11 @@
     <string name="pay">Betal</string>
     <string name="no_chosen_items">Ingen produkter valgt</string>
     <string name="empty_database">Vi har ikke flere: %1$s</string>
+    <string name="drink_name">Drinknavn</string>
+    <string name="imageview_description">Et ikon som repræsenterer produktet</string>
+    <string name="mobilepay_description">Når du trykker \"BETAL\" sendes du automatisk over i MobilePay app. Efter endt betaling åbner i The Drink Book automatisk igen.</string>
+    <string name="youve_chosen">Du har valgt</string>
+    <string name="payment_form">Betalingsform</string>
+    <string name="imageview_mobilepay_description">Et ikon for MobilePay</string>
+    <string name="total_price">Samlet pris:</string>
 </resources>

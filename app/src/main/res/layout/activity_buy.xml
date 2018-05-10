@@ -7,13 +7,13 @@
     tools:context="com.example.thedrinkbook.BuyActivity">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtHeaderBuy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
-        android:text="Du har valgt"
+        android:text="@string/youve_chosen"
         android:textColor="#17637d"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -44,7 +44,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="#c3dceb"
-        android:text="@string/cancel"
+        android:text="@android:string/cancel"
         android:textColor="#17637d"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -53,28 +53,29 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/txtHeaderPaymentForm"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_height="33dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="Betalingsform"
+        android:text="@string/payment_form"
         android:textColor="#17637d"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/txtHeaderTotalPrice" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivMobilepay"
         android:layout_width="160dp"
         android:layout_height="144dp"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/imageview_mobilepay_description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/txtHeaderPaymentForm"
         app:srcCompat="@mipmap/mobilepaylogo" />
 
     <ListView
@@ -85,16 +86,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/txtHeaderBuy" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/txtHeaderTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Samlet pris:"
+        android:text="@string/total_price"
         android:textColor="#17637d"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -105,30 +106,27 @@
         android:id="@+id/txtTotalPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:text="TextView"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        android:text="@string/Product_price"
         android:textColor="#17637d"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintStart_toEndOf="@+id/textView5" />
+        app:layout_constraintBottom_toBottomOf="@+id/txtHeaderTotalPrice"
+        app:layout_constraintStart_toEndOf="@+id/txtHeaderTotalPrice" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="163dp"
         android:layout_height="64dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:layout_marginTop="8dp"
-        android:text='Når du trykker "BETAL" sendes du automatisk over i MobilePay app. Efter endt betaling åbner i The Drink Book automatisk igen.'
-        android:textSize="10sp"
+        android:text="@string/mobilepay_description"
+        android:textSize="12sp"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/ivMobilepay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="@+id/ivMobilepay" />
 
 </android.support.constraint.ConstraintLayout>
