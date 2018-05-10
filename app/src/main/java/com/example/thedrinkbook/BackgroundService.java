@@ -204,6 +204,12 @@ public class BackgroundService extends Service {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //drinksList.clear();
+    }
+
     //Husk at kalde setNotification på den listener der har til funktion af tjekke hvor mange der er tilbage
     //Notifikationfunktionalitet
 
