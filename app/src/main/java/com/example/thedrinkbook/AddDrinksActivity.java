@@ -11,16 +11,18 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class AddDrinksActivity extends AppCompatActivity {
 
-    Button bntSaveAddProduct, bntAddProduct, bntCancelAdmin, bntDeleteProduct;
+    Button bntSaveAddProduct, bntAddProduct, bntCancelAdmin;
     ListView lvAddDrinksAdmin;
 
     ArrayList<Drink> drinkList;
@@ -41,6 +43,16 @@ public class AddDrinksActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AddDrinksActivity.this, AddProductActivity.class);
                 startActivityForResult(intent,1);
+            }
+        });
+
+        lvAddDrinksAdmin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                Toast.makeText(AddDrinksActivity.this, lvAddDrinksAdmin.getItemAtPosition(i).toString(), Toast.LENGTH_LONG).show();
+                return false;
             }
         });
 
@@ -75,7 +87,6 @@ public class AddDrinksActivity extends AppCompatActivity {
         bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
         bntAddProduct = findViewById(R.id.bntAddProduct);
         bntCancelAdmin = findViewById(R.id.bntCancelAdmin);
-        bntDeleteProduct = findViewById(R.id.bntDeleteProduct);
         lvAddDrinksAdmin = findViewById(R.id.lvAddDrinksAdmin);
 
         addDrinksAdaptor = new AddDrinksAdaptor(this, drinkList);
