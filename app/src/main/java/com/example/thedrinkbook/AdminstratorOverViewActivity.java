@@ -117,12 +117,13 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
     @Override
     protected void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
         unbindService(serviceConnection);
     }
 }
