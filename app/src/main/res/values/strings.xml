@@ -20,5 +20,9 @@
     <string name="Name">Product name</string>
     <string name="Product_price">Price</string>
     <string name="Picture_drink">Picture</string>
-    <string name="merchant_id_generic">APPDK0000000000</string>
+    <string name="merchant_id_generic" translatable="false">APPDK0000000000</string>
+    <string name="ok">OK</string>
+    <string name="pay">Pay</string>
+    <string name="no_chosen_items">No items chosen</string>
+    <string name="empty_database">We\'re out of: %1$s</string>
 </resources>

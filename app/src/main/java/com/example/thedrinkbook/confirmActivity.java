@@ -11,6 +11,7 @@ public class confirmActivity extends AppCompatActivity {
 
 
     Button bntLogOutConfirm, bntOK;
+    int CONFIRM_REQUEST_CODE = 142;
 
 
     @Override
@@ -22,7 +23,8 @@ public class confirmActivity extends AppCompatActivity {
         bntLogOutConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishActivity(0);
+                FirebaseAuth.getInstance().signOut();
+                finish();
             }
         });
 
@@ -30,8 +32,10 @@ public class confirmActivity extends AppCompatActivity {
         bntOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+
+                setResult(RESULT_OK);
                 finish();
+
             }
         });
 

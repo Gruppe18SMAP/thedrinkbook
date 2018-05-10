@@ -14,26 +14,28 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class buyAdaptor extends BaseAdapter {
-
+public class AdminOverviewAdaptor extends BaseAdapter {
 
     private Context context;
+    DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
     List<Drink> drinklist;
     Drink drink;
 
-    public buyAdaptor(Context context, List<Drink> drinklist)
-    {
+    ImageView imgSodaicon;
+    TextView txtDrinkname, txtAmount;
+
+    public AdminOverviewAdaptor(Context context, List<Drink> drinklist){
         this.context = context;
         this.drinklist = drinklist;
+
     }
 
-    //Updates the listview
-    public void updateDrinkList(List<Drink> drinklist)
-    {
-        this.drinklist.clear();
-        this.drinklist = drinklist;
+    public void updateDrinkList(List<Drink> drinkList){
+        this.drinklist = drinkList;
         notifyDataSetChanged();
     }
+
     @Override
     public int getCount() {
         if(drinklist != null)
@@ -46,7 +48,7 @@ public class buyAdaptor extends BaseAdapter {
     }
 
     @Override
-    public Drink getItem(int position) {
+    public Object getItem(int position) {
         if(drinklist != null)
         {
             return drinklist.get(position);
@@ -59,46 +61,43 @@ public class buyAdaptor extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        if(drinklist != null)
-        {
-            //return drinklist.get(position).navn;
-            return 0;
-        }
-        else
-        {
-            return 0;
-        }
+        return 0;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         //If the current view is not created, a new inflator will be created
         if (convertView == null)
         {
             LayoutInflater viewInflator = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = viewInflator.inflate(R.layout.listviewbuy, null);
+            convertView = viewInflator.inflate(R.layout.listviewadminverview, null);
         }
 
-        drink = getItem(position);
+        drink = (Drink) getItem(position);
 
         if(drink != null)
         {
-            TextView txtPrice = convertView.findViewById(R.id.txtPrice);
-            txtPrice.setText(String.format("%d kroner", drink.Pris));
-
-            TextView txtDrinkname = convertView.findViewById(R.id.txtDrinkname);
+            txtDrinkname = convertView.findViewById(R.id.txtDrinkname);
             txtDrinkname.setText(drink.Navn);
+            txtAmount = convertView.findViewById(R.id.txtAmount);
+            txtAmount.setText((String.valueOf(drink.Antal)));
 
-            ImageView imgSodaicon = convertView.findViewById(R.id.imgSodaicon);
+
+            imgSodaicon  = convertView.findViewById(R.id.imgSodaicon);
+
             Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 
-        }
-        else
-        {
-            return  null;
-        }
+            /*int amount = drink.Antal;
+            tvAmount = convertView.findViewById(R.id.txtAmount);
+            tvAmount.setText(String.valueOf(amount));*/
 
+        }
+        else {
+            return null;
+        }
+        convertView = convertView;
+        
         return convertView;
+
     }
 }
