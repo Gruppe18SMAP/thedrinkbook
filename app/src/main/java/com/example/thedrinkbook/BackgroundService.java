@@ -23,6 +23,8 @@ import java.io.Serializable;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class BackgroundService extends Service {
 
@@ -115,6 +117,28 @@ public class BackgroundService extends Service {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Drink drink = dataSnapshot.getValue(Drink.class);
+                drink.Key = dataSnapshot.getKey();
+
+                Iterator<Drink> iterator = drinksList.iterator();
+
+                while(iterator.hasNext()){
+                    Drink dbdrink = iterator.next();
+                    if(dbdrink.Key == drink.Key){
+                        int index = drinksList.indexOf(dbdrink);
+                        iterator.remove();
+                        drinksList.add(index, drink);
+                    }
+                }
+
+                /*for(Drink dbdrink : drinksList){
+                    if(dbdrink.Key == drink.Key){
+                        int index = drinksList.indexOf(dbdrink);
+                        drinksList.remove(dbdrink);
+                        drinksList.add(index, drink);
+                    }
+                }*/
+
 
             }
 
@@ -154,7 +178,7 @@ public class BackgroundService extends Service {
             for(Drink dbDrink : drinksList) {
                 if(boughtDrink.Key.equals(dbDrink.Key)) {
                     int antal = dbDrink.Antal - boughtDrink.Antal;
-                    drinkDatabase.child(dbDrink.Key).child("Antal").setValue(antal);
+                    databaseDrinks.child(dbDrink.Key).child("Antal").setValue(antal);
                 }
             }
         }

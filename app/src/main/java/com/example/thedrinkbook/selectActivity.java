@@ -135,10 +135,10 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
                         for (Drink drink : drinks) {
                             if (drink.Navn.equals(tvName.getText().toString())) {
-                                selectedDrink = drink;
+                                selectedDrink = new Drink(drink);
+                                selectedDrink.Antal = intAmount;
                             }
                         }
-                        selectedDrink.Antal = intAmount;
                         selectedDrinks.add(selectedDrink);
                     }
                 }
@@ -181,5 +181,6 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
+        stopService(serviceIntent);
     }
 }
