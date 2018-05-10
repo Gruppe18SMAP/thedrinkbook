@@ -70,7 +70,7 @@ public class AdminOverviewAdaptor extends BaseAdapter {
         if (convertView == null)
         {
             LayoutInflater viewInflator = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = viewInflator.inflate(R.layout.listviewselect, null);
+            convertView = viewInflator.inflate(R.layout.listviewadminverview, null);
         }
 
         drink = (Drink) getItem(position);
@@ -80,7 +80,7 @@ public class AdminOverviewAdaptor extends BaseAdapter {
             txtDrinkname = convertView.findViewById(R.id.txtDrinkname);
             txtDrinkname.setText(drink.Navn);
             txtAmount = convertView.findViewById(R.id.txtAmount);
-            txtAmount.setText((String.valueOf(drink.Pris)));
+            txtAmount.setText((String.valueOf(drink.Antal)));
 
 
             imgSodaicon  = convertView.findViewById(R.id.imgSodaicon);

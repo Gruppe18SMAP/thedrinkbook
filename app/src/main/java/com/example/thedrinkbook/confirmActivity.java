@@ -11,6 +11,7 @@ public class confirmActivity extends AppCompatActivity {
 
 
     Button bntLogOutConfirm, bntOK;
+    int CONFIRM_REQUEST_CODE = 142;
 
 
     @Override
@@ -32,7 +33,8 @@ public class confirmActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                finishActivity(0);
+                setResult(RESULT_OK);
+                finish();
 
             }
         });

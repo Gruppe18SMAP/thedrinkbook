@@ -23,6 +23,8 @@ import java.io.Serializable;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class BackgroundService extends Service {
 
@@ -110,10 +112,41 @@ public class BackgroundService extends Service {
                 {
                     broadcastLoadResult(drinksList);
                 }
+
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                Drink drink = dataSnapshot.getValue(Drink.class);
+                drink.Key = dataSnapshot.getKey();
+
+                for(int i = 0; i < drinksList.size(); i++){
+                    if(drinksList.get(i).Key == drink.Key){
+                        drinksList.remove(i);
+                        drinksList.add(i,drink);
+                        broadcastLoadResult(drinksList);
+                    }
+                }
+
+                /*Iterator<Drink> iterator = drinksList.iterator();
+
+                while(iterator.hasNext()){
+                    Drink dbdrink = iterator.next();
+                    if(dbdrink.Key == drink.Key){
+                        int index = drinksList.indexOf(dbdrink);
+                        iterator.remove();
+                        drinksList.add(index, drink);
+                    }
+                }*/
+
+                /*for(Drink dbdrink : drinksList){
+                    if(dbdrink.Key == drink.Key){
+                        int index = drinksList.indexOf(dbdrink);
+                        drinksList.remove(dbdrink);
+                        drinksList.add(index, drink);
+                    }
+                }*/
+
 
             }
 
@@ -148,8 +181,18 @@ public class BackgroundService extends Service {
         return binder;
     }
 
-    private void boughtFromDatabase(ArrayList<Drink> boughtDrinks) {
-        final Drink[] databaseDrink = new Drink[1];
+    public void boughtFromDatabase(ArrayList<Drink> boughtDrinks) {
+        for(Drink boughtDrink : boughtDrinks) {
+            for(Drink dbDrink : drinksList) {
+                if(boughtDrink.Key.equals(dbDrink.Key)) {
+                    int antal = dbDrink.Antal - boughtDrink.Antal;
+                    databaseDrinks.child(dbDrink.Key).child("Antal").setValue(antal);
+                }
+            }
+        }
+
+
+        /*final Drink[] databaseDrink = new Drink[1];
         for(Drink drink : boughtDrinks){
             DatabaseReference key = databaseDrinks.child(drink.Key);
             key.addValueEventListener(new ValueEventListener() {
@@ -165,7 +208,7 @@ public class BackgroundService extends Service {
             });
             int value = databaseDrink[0].Antal - drink.Antal;
             key.child("Antal").setValue(value);
-        }
+        }*/
     }
 
     //Husk at kalde setNotification på den listener der har til funktion af tjekke hvor mange der er tilbage
