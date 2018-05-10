@@ -126,27 +126,6 @@ public class BackgroundService extends Service {
                         broadcastLoadResult(drinksList);
                     }
                 }
-
-                /*Iterator<Drink> iterator = drinksList.iterator();
-
-                while(iterator.hasNext()){
-                    Drink dbdrink = iterator.next();
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        iterator.remove();
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-                /*for(Drink dbdrink : drinksList){
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        drinksList.remove(dbdrink);
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-
             }
 
             @Override
