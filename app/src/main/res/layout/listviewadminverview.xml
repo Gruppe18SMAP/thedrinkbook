@@ -10,9 +10,10 @@
         android:id="@+id/imgSodaicon"
         android:layout_width="55dp"
         android:layout_height="53dp"
-        android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="28dp"
+        android:contentDescription="@string/imageview_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
@@ -21,12 +22,12 @@
         android:id="@+id/txtDrinkname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="44dp"
-        android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/imgSodaicon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/drink_name" />
 
     <TextView
         android:id="@+id/txtAmount"
@@ -35,9 +36,9 @@
         android:layout_marginLeft="220dp"
         android:layout_marginStart="220dp"
         android:layout_marginTop="36dp"
-        android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/imgSodaicon"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/drink_amount" />
 
 </android.support.constraint.ConstraintLayout>
