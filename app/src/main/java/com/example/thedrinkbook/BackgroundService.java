@@ -174,7 +174,7 @@ public class BackgroundService extends Service {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(BROADCAST_BACKGROUNDSERVICE_LOAD);
         broadcastIntent.putExtra(LOAD_RESULT, listOfDrinks);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
     }
 
     @Nullable

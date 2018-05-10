@@ -97,7 +97,6 @@ public class AddDrinksActivity extends AppCompatActivity {
         bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
         bntAddProduct = findViewById(R.id.bntAddProduct);
         bntCancelAdmin = findViewById(R.id.bntCancelAdmin);
-        bntDeleteProduct = findViewById(R.id.bntDeleteProduct);
         lvAddDrinksAdmin = findViewById(R.id.lvAddDrinksAdmin);
 
         addDrinksAdaptor = new AddDrinksAdaptor(this, drinkList);
