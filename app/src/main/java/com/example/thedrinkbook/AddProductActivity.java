@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +23,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
 
-    Drink drink;
+
     String icon;
 
 
@@ -59,16 +60,6 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
-    public void uploadProductToFirebase() {
-
-        drink.Navn = txtProductName.getText().toString();
-        drink.Pris = Integer.parseInt(txtProductPrice.getText().toString());
-        drink.Key = drink.Navn.toLowerCase().replace(" ", "");
-        drink.Ikon = icon;
-
-
-    }
-
     public void initiate() {
         txtProductName = findViewById(R.id.txtProductName);
         txtProductPrice = findViewById(R.id.txtProductPrice);
@@ -77,6 +68,27 @@ public class AddProductActivity extends AppCompatActivity {
 
         bntCancelAddProduct = findViewById(R.id.bntCancelAddProduct);
         bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
+    }
+
+    public void uploadProductToFirebase() {
+        Drink drink = new Drink();
+        drink.Navn = txtProductName.getText().toString();
+        drink.Pris = Integer.parseInt(txtProductPrice.getText().toString());
+        drink.Key = drink.Navn.toLowerCase().replace(" ", "");
+        drink.Ikon = icon;
+
+        if(TextUtils.isEmpty(txtProductName.getText().toString())){
+            txtProductName.setError("Indtast navn på produktet");}
+        else if(TextUtils.isEmpty(txtProductPrice.getText().toString())){
+            txtProductPrice.setError("Indtast pris for produktet");}
+        else {
+            if(txtProductPrice.getText().toString().startsWith("-")){
+                txtProductPrice.setError("Prisen på produktet skal være positivt");
+            }
+
+        }
+
+
     }
 
 
@@ -107,6 +119,9 @@ public class AddProductActivity extends AppCompatActivity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         icon = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
     }
+
+
+
 
 
 

@@ -126,27 +126,6 @@ public class BackgroundService extends Service {
                         broadcastLoadResult(drinksList);
                     }
                 }
-
-                /*Iterator<Drink> iterator = drinksList.iterator();
-
-                while(iterator.hasNext()){
-                    Drink dbdrink = iterator.next();
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        iterator.remove();
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-                /*for(Drink dbdrink : drinksList){
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        drinksList.remove(dbdrink);
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-
             }
 
             @Override
@@ -223,6 +202,12 @@ public class BackgroundService extends Service {
             }
         }
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //drinksList.clear();
     }
 
     //Husk at kalde setNotification på den listener der har til funktion af tjekke hvor mange der er tilbage

@@ -7,7 +7,6 @@
     <string name="logout">LOGOUT</string>
     <string name="chosen">You have chosen:</string>
     <string name="totalValue">Total value:</string>
-    <string name="cancel">CANCEL</string>
     <string name="buytext">"When pressing \"pay\" MobilePay will automatically open. When the payment is completed The Drink Book will automatically open again. "</string>
     <string name="completed">Payment is completed</string>
     <string name="save">Save</string>
@@ -25,4 +24,12 @@
     <string name="pay">Pay</string>
     <string name="no_chosen_items">No items chosen</string>
     <string name="empty_database">We\'re out of: %1$s</string>
+    <string name="imageview_description">This is an icon representing the product</string>
+    <string name="drink_name">Drink name</string>
+    <string name="drink_amount" translatable="false">00</string>
+    <string name="youve_chosen">You\'ve chosen</string>
+    <string name="payment_form">Payment form</string>
+    <string name="imageview_mobilepay_description">An icon from MobilePay</string>
+    <string name="total_price">Total price:</string>
+    <string name="mobilepay_description">When you push \"PAY\", you\'ll be send to the MobilePay app. The Drink Book will reopen when the payment is done.</string>
 </resources>
