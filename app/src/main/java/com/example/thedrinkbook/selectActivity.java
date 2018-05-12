@@ -137,7 +137,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
                         for (Drink drink : drinks) {
                             if (drink.Navn.equals(tvName.getText().toString())) {
-                                if(drink.Antal > 0) {
+                                if(drink.Antal >= intAmount) {
                                     selectedDrink = new Drink(drink);
                                     selectedDrink.Antal = intAmount;
                                 }

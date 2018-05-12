@@ -159,10 +159,6 @@ public class BuyActivity extends AppCompatActivity {
                         startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
 
                         bgservice.boughtFromDatabase(drinkList);
-                    /*Intent serviceIntent = new Intent(BuyActivity.this, BackgroundService.class);
-                    serviceIntent.setAction(PAYED);
-                    serviceIntent.putExtra(BOUGHTDRINKS,drinkList);
-                    startService(serviceIntent);*/
                     }
 
                     @Override
