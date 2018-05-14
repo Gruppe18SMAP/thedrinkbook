@@ -107,23 +107,25 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 12){
+        /*if(requestCode == 12){
             if(resultCode == RESULT_CANCELED){
 
             }
-        }
+        }*/
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
         unbindService(serviceConnection);
+        stopService(serviceIntent);
     }
 }
 

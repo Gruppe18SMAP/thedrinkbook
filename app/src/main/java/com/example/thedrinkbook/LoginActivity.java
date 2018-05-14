@@ -26,12 +26,15 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 // Implements View.OnClickListener to override the onClick method
 
+    private static final int LOGIN_REQUEST = 11;
+
     FirebaseAuth mAuth;
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseUsers = drinkDatabase.child("Users");
 
     EditText etMail, etPassword;
     Button btnLogin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,10 +144,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(String valueRole) {
         if(valueRole.equals("Admin"))
         {
-            startActivity(new Intent(LoginActivity.this, AdminstratorOverViewActivity.class));
+            startActivityForResult(new Intent(LoginActivity.this, AdminstratorOverViewActivity.class),LOGIN_REQUEST);
         }
         else if(valueRole.equals("User")){
-            startActivity(new Intent(LoginActivity.this, selectActivity.class));
+            startActivityForResult(new Intent(LoginActivity.this, selectActivity.class), LOGIN_REQUEST);
         }
     }
 
@@ -158,4 +161,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == LOGIN_REQUEST){
+            if(resultCode == RESULT_CANCELED){
+                FirebaseAuth.getInstance().signOut();
+            }
+        }
+    }
 }
