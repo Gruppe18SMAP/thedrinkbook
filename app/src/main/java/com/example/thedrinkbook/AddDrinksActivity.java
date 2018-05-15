@@ -125,9 +125,6 @@ public class AddDrinksActivity extends AppCompatActivity {
         super.onStart();
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
 
-
-
-
         IntentFilter filter = new IntentFilter();
         filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
         LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);

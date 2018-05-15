@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -30,10 +29,10 @@
         android:id="@+id/txtAmount"
         android:layout_width="44dp"
         android:layout_height="32dp"
-        android:layout_marginEnd="28dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="44dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtDrinkname"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

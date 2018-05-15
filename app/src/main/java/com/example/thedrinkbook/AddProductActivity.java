@@ -1,18 +1,29 @@
 package com.example.thedrinkbook;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.os.IBinder;
 import android.provider.MediaStore;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -20,14 +31,13 @@ public class AddProductActivity extends AppCompatActivity {
     ImageView ivProductPicture;
     Button bntSaveAddProduct, bntCancelAddProduct;
 
-
-
-    Drink drink;
-    String icon;
+    Bitmap iconBitmap;
 
 
     static final int REQUEST_ICON = 1;
     BackgroundService bgservice;
+    Intent serviceIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +64,9 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 uploadProductToFirebase();
+                finish();
             }
         });
-
-    }
-
-    public void uploadProductToFirebase() {
-
-        drink.Navn = txtProductName.getText().toString();
-        drink.Pris = Integer.parseInt(txtProductPrice.getText().toString());
-        drink.Key = drink.Navn.toLowerCase().replace(" ", "");
-        drink.Ikon = icon;
-
 
     }
 
@@ -77,6 +78,34 @@ public class AddProductActivity extends AppCompatActivity {
 
         bntCancelAddProduct = findViewById(R.id.bntCancelAddProduct);
         bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
+
+        bgservice = new BackgroundService();
+
+        serviceIntent = new Intent(this, BackgroundService.class);
+    }
+
+    public void uploadProductToFirebase() {
+
+        if(TextUtils.isEmpty(txtProductName.getText().toString())){
+            txtProductName.setError("Indtast navn på produktet");}
+        else if(TextUtils.isEmpty(txtProductPrice.getText().toString())){
+            txtProductPrice.setError("Indtast pris for produktet");}
+        else if(txtProductPrice.getText().toString().startsWith("-")){
+                txtProductPrice.setError("Prisen på produktet skal være positivt"); }
+        else if(iconBitmap.equals(0))
+        {
+            Toast.makeText(this, R.string.iconError, Toast.LENGTH_LONG).show();
+        }
+        else {
+        Drink drink = new Drink();
+        drink.Navn = txtProductName.getText().toString();
+        drink.Pris = Integer.parseInt(txtProductPrice.getText().toString());
+        drink.Key = drink.Navn.toLowerCase().replace(" ", "");
+        bgservice.addProduct(drink);
+        bgservice.uploadIconToStorage(drink.Key, iconBitmap);
+
+        }
+
     }
 
 
@@ -95,19 +124,36 @@ public class AddProductActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ICON && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            Bitmap iconBitmap = (Bitmap) extras.get("data");
+            iconBitmap = (Bitmap) extras.get("data");
             ivProductPicture.setImageBitmap(iconBitmap);
-            uploadIconToStorage(iconBitmap);
         }
     }
 
 
-    private void uploadIconToStorage(Bitmap bitmap) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        icon = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+
     }
 
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
+            bgservice = binder.getService();
+
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            bgservice = null;
+        }
+    };
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(serviceConnection);
+    }
 }

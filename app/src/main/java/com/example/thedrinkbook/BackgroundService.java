@@ -3,6 +3,7 @@ package com.example.thedrinkbook;
 import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Base64;
 import android.util.Log;
 
 import com.google.firebase.database.ChildEventListener;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.security.Timestamp;
 import java.text.SimpleDateFormat;
@@ -40,6 +43,7 @@ public class BackgroundService extends Service {
     ArrayList<Drink> drinksList;
     long drinksCount = 0;
     int snapshotCount = 0;
+
 
     public class BackgroundServiceBinder extends Binder {
         BackgroundService getService(){
@@ -126,27 +130,6 @@ public class BackgroundService extends Service {
                         broadcastLoadResult(drinksList);
                     }
                 }
-
-                /*Iterator<Drink> iterator = drinksList.iterator();
-
-                while(iterator.hasNext()){
-                    Drink dbdrink = iterator.next();
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        iterator.remove();
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-                /*for(Drink dbdrink : drinksList){
-                    if(dbdrink.Key == drink.Key){
-                        int index = drinksList.indexOf(dbdrink);
-                        drinksList.remove(dbdrink);
-                        drinksList.add(index, drink);
-                    }
-                }*/
-
-
             }
 
             @Override
@@ -174,7 +157,7 @@ public class BackgroundService extends Service {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(BROADCAST_BACKGROUNDSERVICE_LOAD);
         broadcastIntent.putExtra(LOAD_RESULT, listOfDrinks);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
     }
 
     @Nullable
@@ -223,6 +206,29 @@ public class BackgroundService extends Service {
             }
         }
 
+    }
+
+    public void addProduct(Drink drink)
+    {
+     
+        databaseDrinks.setValue(drink.Key);
+        databaseDrinks.child(drink.Key).child("Navn").setValue(drink.Navn);
+        databaseDrinks.child(drink.Key).child("Pris").setValue(drink.Pris);
+
+    }
+
+    public void uploadIconToStorage(String key, Bitmap bitmap)
+    {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        String icon = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
+        databaseDrinks.child(key).child("Ikon").setValue(icon);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //drinksList.clear();
     }
 
     //Husk at kalde setNotification på den listener der har til funktion af tjekke hvor mange der er tilbage
