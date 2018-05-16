@@ -76,21 +76,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(mail,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            checkRole(user);
-                        }
+        String connectStat = NetworkChecker.getNetworkStatus(this);
+        if(connectStat == null) {
+            mAuth.signInWithEmailAndPassword(mail, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                checkRole(user);
+                            } else {
+                                Toast.makeText(LoginActivity.this, getResources().getString(R.string.failed_authentification), Toast.LENGTH_LONG).show();
+                            }
 
-                        else{
-                            Toast.makeText(LoginActivity.this,"Authentication failed.", Toast.LENGTH_LONG).show();
                         }
-
-                    }
-                });
+                    });
+        } else{
+            Toast.makeText(LoginActivity.this, connectStat, Toast.LENGTH_LONG).show();
+        }
     }
 
     private boolean validateForm() {
@@ -98,7 +101,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String mail = etMail.getText().toString();
         if(TextUtils.isEmpty(mail)){
-            etMail.setError("Required");
+            etMail.setError(getResources().getString(R.string.required_field));
             valid = false;
         }
         else{
@@ -107,7 +110,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String password = etPassword.getText().toString();
         if(TextUtils.isEmpty(password)){
-            etPassword.setError("Required");
+            etPassword.setError(getResources().getString(R.string.required_field));
             valid = false;
         }
         else{
