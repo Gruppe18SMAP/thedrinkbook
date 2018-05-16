@@ -73,13 +73,13 @@ public class BackgroundService extends Service {
     public void onCreate() {
         super.onCreate();
         drinksList = new ArrayList<>();
-
         mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://thedrinkbook.appspot.com");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         loadFromDrinksDatabase();
+        Log.d(msg, "The backgroundService is started");
         return START_NOT_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }
@@ -138,6 +138,7 @@ public class BackgroundService extends Service {
                 Drink drink = dataSnapshot.getValue(Drink.class);
                 drink.Key = dataSnapshot.getKey();
 
+                Log.d(msg, "Drinks is changes");
                 for(int i = 0; i < drinksList.size(); i++){
                     if(drinksList.get(i).Key.equals(drink.Key)){
                         drinksList.remove(i);
@@ -173,12 +174,12 @@ public class BackgroundService extends Service {
         broadcastIntent.setAction(BROADCAST_BACKGROUNDSERVICE_LOAD);
         broadcastIntent.putExtra(LOAD_RESULT, listOfDrinks);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+        Log.d(msg, "Brodcasting...");
     }
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
-        return binder;
+    public IBinder onBind(Intent intent) { return binder;
     }
 
     public void boughtFromDatabase(ArrayList<Drink> boughtDrinks) {
@@ -187,6 +188,7 @@ public class BackgroundService extends Service {
                 if(boughtDrink.Key.equals(dbDrink.Key)) {
                     int antal = dbDrink.Antal - boughtDrink.Antal;
                     databaseDrinks.child(dbDrink.Key).child("Antal").setValue(antal);
+                    Log.d(msg, "Amount of drinks is updated");
                 }
             }
         }
@@ -217,6 +219,7 @@ public class BackgroundService extends Service {
                 if(updatedDrink.Key.equals(dbDrink.Key)) {
                     int amount = dbDrink.Antal + updatedDrink.Antal;
                     databaseDrinks.child(dbDrink.Key).child("Antal").setValue(amount);
+                    Log.d(msg, "Amount is updated");
                 }
             }
         }
@@ -226,19 +229,17 @@ public class BackgroundService extends Service {
     public void addProduct(Drink drink)
     {
         databaseDrinks.child(drink.Key).setValue(drink);
+        Log.d(msg, "Product is added");
     }
 
+    //Is inspiret from https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase;
     public void uploadIconToStorage(final String key, Bitmap bitmap)
     {
-
-
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         byte[] data = outputStream.toByteArray();
 
         StorageReference reference = mStorageRef.child(key);
-
-
 
         UploadTask UT = reference.putBytes(data);
         UT.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -287,12 +288,7 @@ public class BackgroundService extends Service {
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationsID, notification);
-
-
-
     }
-
-
 
 
 }

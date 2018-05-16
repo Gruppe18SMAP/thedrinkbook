@@ -90,6 +90,9 @@ public class buyAdaptor extends BaseAdapter {
             TextView txtDrinkname = convertView.findViewById(R.id.txtDrinkname);
             txtDrinkname.setText(drink.Navn);
 
+            TextView txtAmount = convertView.findViewById(R.id.txtAmount);
+            txtAmount.setText(String.format("%d x", drink.Antal));
+
             ImageView imgSodaicon = convertView.findViewById(R.id.imgSodaicon);
             Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 

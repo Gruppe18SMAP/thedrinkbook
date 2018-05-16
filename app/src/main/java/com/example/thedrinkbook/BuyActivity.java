@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -32,6 +33,7 @@ public class BuyActivity extends AppCompatActivity {
 
     private static final String PAYED = "Payed for drinks";
     private static final String BOUGHTDRINKS = "Drinks bought" ;
+    static final String LOG = "BuyActivity";
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
 
@@ -76,14 +78,15 @@ public class BuyActivity extends AppCompatActivity {
                     payment.setOrderId("testorder");
 
                     Intent paymentIntent = MobilePay.getInstance().createPaymentIntent(payment);
-
+                    Log.d(LOG, "Paying...");
                     startActivityForResult(paymentIntent, MOBILEPAY_PAYMENT_REQUEST_CODE);
+
                 }
                 else {
                     Intent installMPIntent = MobilePay.getInstance().createDownloadMobilePayIntent(getApplicationContext());
+                    Log.d(LOG, "Mobilepay is not installed");
                     startActivity(installMPIntent);
                 }
-
             }
         });
 
@@ -117,6 +120,7 @@ public class BuyActivity extends AppCompatActivity {
         super.onStart();
         Intent serviceIntent = new Intent(this, BackgroundService.class);
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+        Log.d(LOG, "Binded to backgroundservice");
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {

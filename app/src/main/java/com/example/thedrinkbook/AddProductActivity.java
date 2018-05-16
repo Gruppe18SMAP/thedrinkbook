@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,8 +34,8 @@ public class AddProductActivity extends AppCompatActivity {
     Button bntSaveAddProduct, bntCancelAddProduct;
 
     Bitmap iconBitmap;
-    private Uri filepath;
 
+    static final String LOG = "AddProductActivity";
 
     static final int REQUEST_ICON = 1;
     BackgroundService bgservice;
@@ -103,6 +104,7 @@ public class AddProductActivity extends AppCompatActivity {
         drink.Navn = txtProductName.getText().toString();
         drink.Pris = Integer.parseInt(txtProductPrice.getText().toString());
         drink.Key = drink.Navn.toLowerCase().replace(" ", "");
+            Log.d(LOG, "Uploading Drink to firebase");
         bgservice.addProduct(drink);
         bgservice.uploadIconToStorage(drink.Key, iconBitmap);
 
@@ -117,6 +119,7 @@ public class AddProductActivity extends AppCompatActivity {
         Intent PictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (PictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(PictureIntent, REQUEST_ICON);
+            Log.d(LOG, "Taking picture...");
         }
 
     }
@@ -126,9 +129,9 @@ public class AddProductActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ICON && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
-            filepath = data.getData();
             iconBitmap = (Bitmap) extras.get("data");
             ivProductPicture.setImageBitmap(iconBitmap);
+            Log.d(LOG, "Icon recived");
         }
     }
 
@@ -137,6 +140,7 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+        Log.d(LOG, "Binds to backgroundservice");
 
     }
 
@@ -158,5 +162,6 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
+        Log.d(LOG, "Unbinded to backgroundservice");
     }
 }

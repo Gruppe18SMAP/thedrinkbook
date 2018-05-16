@@ -10,8 +10,8 @@
         android:layout_width="55dp"
         android:layout_height="53dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
         android:text="TextView"
         android:textColor="#17637d"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imgSodaicon"
+        app:layout_constraintStart_toEndOf="@+id/txtAmount"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -42,6 +42,19 @@
         android:textColor="#17637d"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="84dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="32dp"
+        android:text="XXX"
+        android:textColor="#17637d"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
