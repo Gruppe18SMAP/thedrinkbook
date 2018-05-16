@@ -15,6 +15,8 @@ public class Notifications {
     public static final String CHANNEL_ID = "DrinkBook";
     PendingIntent pendingIntent;
 
+    NotificationManager notificationManager;
+
     public Notifications(Context context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -23,8 +25,10 @@ public class Notifications {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-       //     NotificationManager.createNotificationChannel(channel);
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(channel);
+        } else {
+            notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
         createIntent(context);
