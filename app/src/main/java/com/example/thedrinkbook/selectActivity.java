@@ -57,7 +57,20 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
         serviceIntent = new Intent(this, BackgroundService.class);
         startService(serviceIntent);
+
+        bindService(serviceIntent,serviceConnection,Context.BIND_AUTO_CREATE);
+
         initializeObjects();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     private void initializeObjects() {
@@ -73,17 +86,6 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
         listviewAdapter = new selectAdaptor(this,drinks);
         lvDrinks.setAdapter(listviewAdapter);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        bindService(serviceIntent,serviceConnection,Context.BIND_AUTO_CREATE);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
-        LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -104,7 +106,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         public void onReceive(Context context, Intent intent) {
             drinks = (ArrayList<Drink>)intent.getSerializableExtra(BackgroundService.LOAD_RESULT);
-            listviewAdapter.updateDrinks(drinks);
+            listviewAdapter.updateDrinks(drinks, bgservice);
         }
     };
 

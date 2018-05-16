@@ -2,10 +2,12 @@ package com.example.thedrinkbook;
 
 import android.app.Notification;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Binder;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -13,6 +15,8 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -20,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -41,8 +46,14 @@ public class BackgroundService extends Service {
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
     ArrayList<Drink> drinksList;
+    ArrayList<Icon> icons;
     long drinksCount = 0;
     int snapshotCount = 0;
+
+    private Context iconContext;
+    private String iconUrl;
+    private ImageView iconView;
+    private int iconCount = 0, elementCount = 0;
 
 
     public class BackgroundServiceBinder extends Binder {
@@ -60,6 +71,8 @@ public class BackgroundService extends Service {
     public void onCreate() {
         super.onCreate();
         drinksList = new ArrayList<>();
+        handler = new Handler();
+        icons = new ArrayList<Icon>();
     }
 
     @Override
@@ -147,6 +160,35 @@ public class BackgroundService extends Service {
 
             }
         });
+    }
+
+    public void startloadIconRunnable(Context c, String url, ImageView imageview){
+        Icon icon = new Icon(c, url, imageview);
+        icons.add(icon);
+        iconCount = iconCount+1;
+        elementCount = drinksList.size();
+        if(iconCount == elementCount) {
+            handler.post(runnableLoadIcon);
+            iconCount = 0; elementCount = 0;
+        }
+    }
+    private Handler handler;
+    /**
+     * Runnable for load of icons from storage
+     */
+    private Runnable runnableLoadIcon = new Runnable() {
+        @Override
+        public void run() {
+            handler.removeCallbacksAndMessages(runnableLoadIcon);
+            loadIcon();
+            icons.clear();
+        }
+    };
+
+    private void loadIcon() {
+        for (Icon icon : icons) {
+            Picasso.with(icon.c).load(icon.url).into(icon.imageview);
+        }
     }
 
     public ArrayList<Drink> getDrinksList() {

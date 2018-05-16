@@ -37,6 +37,7 @@ public class BuyActivity extends AppCompatActivity {
 
     private BackgroundService bgservice;
 
+
     ListView lvChosenDrinks;
     TextView txtTotalPrice;
     Button btnPay, btnCancel;
