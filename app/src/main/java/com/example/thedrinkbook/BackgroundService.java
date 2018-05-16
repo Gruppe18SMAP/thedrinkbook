@@ -210,11 +210,7 @@ public class BackgroundService extends Service {
 
     public void addProduct(Drink drink)
     {
-     
-        databaseDrinks.setValue(drink.Key);
-        databaseDrinks.child(drink.Key).child("Navn").setValue(drink.Navn);
-        databaseDrinks.child(drink.Key).child("Pris").setValue(drink.Pris);
-
+        databaseDrinks.child(drink.Key).setValue(drink);
     }
 
     public void uploadIconToStorage(String key, Bitmap bitmap)
