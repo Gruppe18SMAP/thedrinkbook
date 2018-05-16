@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -9,8 +10,8 @@
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/imageview_description"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,10 +23,12 @@
         android:id="@+id/txtDrinkname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="@string/drink_name"
+        android:textColor="#17637d"
+        android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/imgSodaicon"
         app:layout_constraintTop_toTopOf="@+id/imgSodaicon" />
 
@@ -33,12 +36,15 @@
         android:id="@+id/txtAmount"
         android:layout_width="44dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/txtDrinkPrice"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textColor="#17637d"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtDrinkPrice"
@@ -46,6 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/Product_price"
+        android:textColor="#17637d"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/imgSodaicon"
         app:layout_constraintStart_toStartOf="@+id/txtDrinkname"
         app:layout_constraintTop_toBottomOf="@+id/txtDrinkname" />
