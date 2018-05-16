@@ -163,13 +163,13 @@ public class BuyActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(FailureResult failureResult) {
-                        Toast failureToast = Toast.makeText(BuyActivity.this, "Betaling mislykkedes", Toast.LENGTH_LONG);
+                        Toast failureToast = Toast.makeText(BuyActivity.this, getResources().getString(R.string.Paymentfailed), Toast.LENGTH_LONG);
                         failureToast.show();
                     }
 
                     @Override
                     public void onCancel() {
-                        Toast cancelToast = Toast.makeText(BuyActivity.this, "Betaling annulleret", Toast.LENGTH_LONG);
+                        Toast cancelToast = Toast.makeText(BuyActivity.this, getResources().getString(R.string.paymentCanceled), Toast.LENGTH_LONG);
                         cancelToast.show();
                     }
                 });

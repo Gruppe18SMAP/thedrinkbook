@@ -241,8 +241,8 @@ public class BackgroundService extends Service {
 
         notification = new NotificationCompat.Builder(this, Notifications.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.drinkslogo)
-                .setContentText("Der er mindre end 5 stk af en drikkevarer")
-                .setContentTitle("Thedrinkbook")
+                .setContentText(getResources().getString(R.string.lessthanfivedrinksleft))
+                .setContentTitle(getResources().getString(R.string.app_name))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notifications.pendingIntent)
                 .build();

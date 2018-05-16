@@ -87,14 +87,14 @@ public class AddProductActivity extends AppCompatActivity {
     public void uploadProductToFirebase() {
 
         if(TextUtils.isEmpty(txtProductName.getText().toString())){
-            txtProductName.setError("Indtast navn på produktet");}
+            txtProductName.setError(getResources().getString(R.string.add_productname));}
         else if(TextUtils.isEmpty(txtProductPrice.getText().toString())){
-            txtProductPrice.setError("Indtast pris for produktet");}
+            txtProductPrice.setError(getResources().getString(R.string.add_productprice));}
         else if(txtProductPrice.getText().toString().startsWith("-")){
-                txtProductPrice.setError("Prisen på produktet skal være positivt"); }
+                txtProductPrice.setError(getResources().getString(R.string.add_priceNotnegativ)); }
         else if(iconBitmap.equals(0))
         {
-            Toast.makeText(this, R.string.iconError, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.iconError), Toast.LENGTH_LONG).show();
         }
         else {
         Drink drink = new Drink();

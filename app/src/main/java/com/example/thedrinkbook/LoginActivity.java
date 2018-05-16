@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         updateUI(valueRole);
                     }
                     else{
-                        Toast.makeText(LoginActivity.this,"User has no role.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this,(getResources().getString(R.string.failed_authentification)), Toast.LENGTH_LONG).show();
                     }
                 }
 
