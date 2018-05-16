@@ -32,4 +32,5 @@
     <string name="imageview_mobilepay_description">An icon from MobilePay</string>
     <string name="total_price">Total price:</string>
     <string name="mobilepay_description">When you push \"PAY\", you\'ll be send to the MobilePay app. The Drink Book will reopen when the payment is done.</string>
+    <string name="iconError">Please take a photo before saving the new product</string>
 </resources>
