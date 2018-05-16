@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
@@ -32,6 +33,7 @@ public class AddProductActivity extends AppCompatActivity {
     Button bntSaveAddProduct, bntCancelAddProduct;
 
     Bitmap iconBitmap;
+    private Uri filepath;
 
 
     static final int REQUEST_ICON = 1;
@@ -124,6 +126,7 @@ public class AddProductActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ICON && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
+            filepath = data.getData();
             iconBitmap = (Bitmap) extras.get("data");
             ivProductPicture.setImageBitmap(iconBitmap);
         }
