@@ -70,7 +70,7 @@ public class AdminOverviewAdaptor extends BaseAdapter {
         if (convertView == null)
         {
             LayoutInflater viewInflator = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = viewInflator.inflate(R.layout.listviewadminverview, null);
+            convertView = viewInflator.inflate(R.layout.listviewadminoverview, null);
         }
 
         drink = (Drink) getItem(position);

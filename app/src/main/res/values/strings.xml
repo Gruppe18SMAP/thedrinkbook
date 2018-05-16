@@ -33,4 +33,7 @@
     <string name="total_price">Total price:</string>
     <string name="mobilepay_description">When you push \"PAY\", you\'ll be send to the MobilePay app. The Drink Book will reopen when the payment is done.</string>
     <string name="iconError">Please take a photo before saving the new product</string>
+    <string name="no_connection">No connection to network</string>
+    <string name="failed_authentification">Authentication failed.</string>
+    <string name="required_field">Required</string>
 </resources>
