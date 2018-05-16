@@ -85,7 +85,7 @@ public class buyAdaptor extends BaseAdapter {
         if(drink != null)
         {
             TextView txtPrice = convertView.findViewById(R.id.txtPrice);
-            txtPrice.setText(String.format("%d kroner", drink.Pris));
+            txtPrice.setText(String.format("%d kr.", drink.Pris));
 
             TextView txtDrinkname = convertView.findViewById(R.id.txtDrinkname);
             txtDrinkname.setText(drink.Navn);
