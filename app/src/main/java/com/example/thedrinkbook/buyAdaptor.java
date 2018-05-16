@@ -16,6 +16,7 @@ import java.util.List;
 
 public class buyAdaptor extends BaseAdapter {
 
+    BackgroundService bgservice;
 
     private Context context;
     List<Drink> drinklist;
@@ -28,8 +29,9 @@ public class buyAdaptor extends BaseAdapter {
     }
 
     //Updates the listview
-    public void updateDrinkList(List<Drink> drinklist)
+    public void updateDrinkList(List<Drink> drinklist, BackgroundService bgservice)
     {
+        this.bgservice = bgservice;
         this.drinklist.clear();
         this.drinklist = drinklist;
         notifyDataSetChanged();
@@ -94,7 +96,12 @@ public class buyAdaptor extends BaseAdapter {
             txtAmount.setText(String.format("%d x", drink.Antal));
 
             ImageView imgSodaicon = convertView.findViewById(R.id.imgSodaicon);
-            Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
+
+            if(bgservice != null){
+                bgservice.startloadIconRunnable(this.context, drink.Ikon, imgSodaicon);
+            }
+
+            //Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 
         }
         else

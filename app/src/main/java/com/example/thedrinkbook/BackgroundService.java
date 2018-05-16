@@ -68,6 +68,8 @@ public class BackgroundService extends Service {
     private String iconUrl;
     private ImageView iconView;
     private int iconCount = 0, elementCount = 0;
+    private String iconStartAddress = "https://firebasestorage.googleapis.com";
+    private String iconEndAdress = ".jpg?alt=media&token=5f289d8b-1b11-4246-a7d3-7a9d02826d97";
 
 
     public class BackgroundServiceBinder extends Binder {
@@ -204,6 +206,7 @@ public class BackgroundService extends Service {
 
     private void loadIcon() {
         for (Icon icon : icons) {
+            //String url = iconStartAddress+icon.url+iconEndAdress;
             Picasso.with(icon.c).load(icon.url).into(icon.imageview);
         }
     }
@@ -288,10 +291,10 @@ public class BackgroundService extends Service {
         UT.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Log.d(msg, "Billedet er uploadet til firebase storage");
                 Uri iconUri = taskSnapshot.getDownloadUrl();
-                String iconString = iconUri.getPath();
+               String iconString = iconUri.getPath();
                 databaseDrinks.child(key).child("Ikon").setValue(iconString);
+                Log.d(msg, "Billedet er uploadet til firebase storage");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

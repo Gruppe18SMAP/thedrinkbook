@@ -64,7 +64,7 @@ public class BuyActivity extends AppCompatActivity {
 
         getSelectedData();
 
-        BA.updateDrinkList(drinkList);
+        BA.updateDrinkList(drinkList, bgservice);
 
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +129,7 @@ public class BuyActivity extends AppCompatActivity {
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
             bgservice = binder.getService();
+            BA.updateDrinkList(drinkList, bgservice);
         }
 
         @Override
