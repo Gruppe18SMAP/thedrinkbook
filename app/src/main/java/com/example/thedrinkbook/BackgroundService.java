@@ -5,10 +5,12 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -18,6 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,6 +29,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -33,6 +41,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 public class BackgroundService extends Service {
 
@@ -41,15 +50,20 @@ public class BackgroundService extends Service {
     private static final String BOUGHTDRINKS = "Drinks bought" ;
     static final String BROADCAST_BACKGROUNDSERVICE_LOAD = "broadcast from background with result from load from database";
     static final String LOAD_RESULT = "Result from load from database" ;
+
+    static  final String msg = "BackgroundService";
     private boolean started = false;
+
 
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
+    private StorageReference mStorageRef;
     ArrayList<Drink> drinksList;
     ArrayList<Icon> icons;
     long drinksCount = 0;
     int snapshotCount = 0;
 
+    private Handler handler;
     private Context iconContext;
     private String iconUrl;
     private ImageView iconView;
@@ -73,11 +87,13 @@ public class BackgroundService extends Service {
         drinksList = new ArrayList<>();
         handler = new Handler();
         icons = new ArrayList<Icon>();
+        mStorageRef = FirebaseStorage.getInstance().getReferenceFromUrl("gs://thedrinkbook.appspot.com");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         loadFromDrinksDatabase();
+        Log.d(msg, "The backgroundService is started");
         return START_NOT_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }
@@ -136,6 +152,7 @@ public class BackgroundService extends Service {
                 Drink drink = dataSnapshot.getValue(Drink.class);
                 drink.Key = dataSnapshot.getKey();
 
+                Log.d(msg, "Drinks is changes");
                 for(int i = 0; i < drinksList.size(); i++){
                     if(drinksList.get(i).Key.equals(drink.Key)){
                         drinksList.remove(i);
@@ -172,7 +189,7 @@ public class BackgroundService extends Service {
             iconCount = 0; elementCount = 0;
         }
     }
-    private Handler handler;
+
     /**
      * Runnable for load of icons from storage
      */
@@ -200,12 +217,12 @@ public class BackgroundService extends Service {
         broadcastIntent.setAction(BROADCAST_BACKGROUNDSERVICE_LOAD);
         broadcastIntent.putExtra(LOAD_RESULT, listOfDrinks);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(broadcastIntent);
+        Log.d(msg, "Brodcasting...");
     }
 
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
-        return binder;
+    public IBinder onBind(Intent intent) { return binder;
     }
 
     public void boughtFromDatabase(ArrayList<Drink> boughtDrinks) {
@@ -214,6 +231,7 @@ public class BackgroundService extends Service {
                 if(boughtDrink.Key.equals(dbDrink.Key)) {
                     int antal = dbDrink.Antal - boughtDrink.Antal;
                     databaseDrinks.child(dbDrink.Key).child("Antal").setValue(antal);
+                    Log.d(msg, "Amount of drinks is updated");
                 }
             }
         }
@@ -244,6 +262,7 @@ public class BackgroundService extends Service {
                 if(updatedDrink.Key.equals(dbDrink.Key)) {
                     int amount = dbDrink.Antal + updatedDrink.Antal;
                     databaseDrinks.child(dbDrink.Key).child("Antal").setValue(amount);
+                    Log.d(msg, "Amount is updated");
                 }
             }
         }
@@ -253,14 +272,35 @@ public class BackgroundService extends Service {
     public void addProduct(Drink drink)
     {
         databaseDrinks.child(drink.Key).setValue(drink);
+        Log.d(msg, "Product is added");
     }
 
-    public void uploadIconToStorage(String key, Bitmap bitmap)
+    //Is inspiret from https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase;
+    public void uploadIconToStorage(final String key, Bitmap bitmap)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        String icon = Base64.encodeToString(outputStream.toByteArray(), Base64.DEFAULT);
-        databaseDrinks.child(key).child("Ikon").setValue(icon);
+        byte[] data = outputStream.toByteArray();
+
+        StorageReference reference = mStorageRef.child(key);
+
+        UploadTask UT = reference.putBytes(data);
+        UT.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.d(msg, "Billedet er uploadet til firebase storage");
+                Uri iconUri = taskSnapshot.getDownloadUrl();
+                String iconString = iconUri.getPath();
+                databaseDrinks.child(key).child("Ikon").setValue(iconString);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d(msg, "Billedet er ikke uplodaet til firebase storage");
+            }
+        });
+
+
     }
 
     @Override
@@ -283,20 +323,15 @@ public class BackgroundService extends Service {
 
         notification = new NotificationCompat.Builder(this, Notifications.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.drinkslogo)
-                .setContentText("Der er mindre end 5 stk af en drikkevarer")
-                .setContentTitle("Thedrinkbook")
+                .setContentText(getResources().getString(R.string.lessthanfivedrinksleft))
+                .setContentTitle(getResources().getString(R.string.app_name))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notifications.pendingIntent)
                 .build();
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationsID, notification);
-
-
-
     }
-
-
 
 
 }

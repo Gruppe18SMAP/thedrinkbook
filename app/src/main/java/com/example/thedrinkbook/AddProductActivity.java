@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.support.v4.content.LocalBroadcastManager;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,6 +35,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     Bitmap iconBitmap;
 
+    static final String LOG = "AddProductActivity";
 
     static final int REQUEST_ICON = 1;
     BackgroundService bgservice;
@@ -87,20 +90,21 @@ public class AddProductActivity extends AppCompatActivity {
     public void uploadProductToFirebase() {
 
         if(TextUtils.isEmpty(txtProductName.getText().toString())){
-            txtProductName.setError("Indtast navn på produktet");}
+            txtProductName.setError(getResources().getString(R.string.add_productname));}
         else if(TextUtils.isEmpty(txtProductPrice.getText().toString())){
-            txtProductPrice.setError("Indtast pris for produktet");}
+            txtProductPrice.setError(getResources().getString(R.string.add_productprice));}
         else if(txtProductPrice.getText().toString().startsWith("-")){
-                txtProductPrice.setError("Prisen på produktet skal være positivt"); }
+                txtProductPrice.setError(getResources().getString(R.string.add_priceNotnegativ)); }
         else if(iconBitmap.equals(0))
         {
-            Toast.makeText(this, R.string.iconError, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.iconError), Toast.LENGTH_LONG).show();
         }
         else {
         Drink drink = new Drink();
         drink.Navn = txtProductName.getText().toString();
         drink.Pris = Integer.parseInt(txtProductPrice.getText().toString());
         drink.Key = drink.Navn.toLowerCase().replace(" ", "");
+            Log.d(LOG, "Uploading Drink to firebase");
         bgservice.addProduct(drink);
         bgservice.uploadIconToStorage(drink.Key, iconBitmap);
 
@@ -115,6 +119,7 @@ public class AddProductActivity extends AppCompatActivity {
         Intent PictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (PictureIntent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(PictureIntent, REQUEST_ICON);
+            Log.d(LOG, "Taking picture...");
         }
 
     }
@@ -126,6 +131,7 @@ public class AddProductActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             iconBitmap = (Bitmap) extras.get("data");
             ivProductPicture.setImageBitmap(iconBitmap);
+            Log.d(LOG, "Icon recived");
         }
     }
 
@@ -134,6 +140,7 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+        Log.d(LOG, "Binds to backgroundservice");
 
     }
 
@@ -155,5 +162,6 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
+        Log.d(LOG, "Unbinded to backgroundservice");
     }
 }
