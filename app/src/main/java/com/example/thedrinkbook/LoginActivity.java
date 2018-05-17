@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseUsers = drinkDatabase.child("Users");
 
+    final static String LOG = "LoginActvity";
     EditText etMail, etPassword;
     Button btnLogin;
 
@@ -140,6 +142,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void checkRole(FirebaseUser currentUser) {
         if(currentUser != null) {
             String userUid = currentUser.getUid();
+            Log.d(LOG, "Checking role...");
             DatabaseReference dbRole = databaseUsers.child(userUid).child("Rolle");
             dbRole.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -164,9 +167,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(String valueRole) {
         if(valueRole.equals("Admin"))
         {
+            Log.d(LOG, "Adminstrator login");
             startActivityForResult(new Intent(LoginActivity.this, AdminstratorOverViewActivity.class),LOGIN_REQUEST);
         }
         else if(valueRole.equals("User")){
+            Log.d(LOG, "User login ");
             startActivityForResult(new Intent(LoginActivity.this, selectActivity.class), LOGIN_REQUEST);
         }
     }

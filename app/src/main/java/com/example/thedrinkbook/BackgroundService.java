@@ -70,7 +70,7 @@ public class BackgroundService extends Service {
     private ImageView iconView;
     private int iconCount = 0, elementCount = 0;
     private String iconStartAddress = "https://firebasestorage.googleapis.com";
-    private String iconEndAdress = ".jpg?alt=media&token=5f289d8b-1b11-4246-a7d3-7a9d02826d97";
+
 
 
     public class BackgroundServiceBinder extends Binder {
@@ -155,7 +155,7 @@ public class BackgroundService extends Service {
                 Drink drink = dataSnapshot.getValue(Drink.class);
                 drink.Key = dataSnapshot.getKey();
 
-                Log.d(msg, "Drinks is changes");
+                Log.d(msg, "Drink changes");
                 for(int i = 0; i < drinksList.size(); i++){
                     if(drinksList.get(i).Key.equals(drink.Key)){
                         drinksList.remove(i);
@@ -163,11 +163,27 @@ public class BackgroundService extends Service {
                         broadcastLoadResult(drinksList);
                     }
                 }
+                if(drink.Antal < 5)
+                {
+                    setNotification(drink.Navn);
+                }
+
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Drink drink = dataSnapshot.getValue(Drink.class);
+                drink.Key = dataSnapshot.getKey();
 
+
+                for(int i = 0; i < drinksList.size(); i++){
+                    if(drinksList.get(i).Key.equals(drink.Key)){
+                        drinksList.remove(i);
+                        broadcastLoadResult(drinksList);
+                        removeIconToStorage(drink.Key);
+                    }
+                }
+                Log.d(msg, "Drink is removed");
             }
 
             @Override
@@ -207,7 +223,6 @@ public class BackgroundService extends Service {
 
     private void loadIcon() {
         for (Icon icon : icons) {
-            //String url = iconStartAddress+icon.url+iconEndAdress;
             Picasso.with(icon.c).load(icon.url).into(icon.imageview);
         }
     }
@@ -239,25 +254,6 @@ public class BackgroundService extends Service {
                 }
             }
         }
-
-
-        /*final Drink[] databaseDrink = new Drink[1];
-        for(Drink drink : boughtDrinks){
-            DatabaseReference key = databaseDrinks.child(drink.Key);
-            key.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    databaseDrink[0] = dataSnapshot.getValue(Drink.class);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            int value = databaseDrink[0].Antal - drink.Antal;
-            key.child("Antal").setValue(value);
-        }*/
     }
 
     public void updateAmount(ArrayList<Drink> updatedDrinks){
@@ -279,13 +275,17 @@ public class BackgroundService extends Service {
         Log.d(msg, "Product is added");
     }
 
-    //Is inspiret from https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase;
+    public void removeProduct(Drink drink){
+        databaseDrinks.child(drink.Key).removeValue();
+    }
+
+    //Is inspired from https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase;
     public void uploadIconToStorage(final String key, Bitmap bitmap)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        byte[] data = outputStream.toByteArray();
 
+        byte[] data = outputStream.toByteArray();
         StorageReference reference = mStorageRef.child(key);
 
         UploadTask UT = reference.putBytes(data);
@@ -293,18 +293,30 @@ public class BackgroundService extends Service {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Uri iconUri = taskSnapshot.getDownloadUrl();
-               String iconString = iconUri.getPath();
-                databaseDrinks.child(key).child("Ikon").setValue(iconString);
+                String iconstring = iconUri.getPath();
+                String icontoken = iconUri.getQuery();
+                String storageUrl = iconStartAddress+iconstring+"?"+icontoken;
+                databaseDrinks.child(key).child("Ikon").setValue(storageUrl);
                 Log.d(msg, "Billedet er uploadet til firebase storage");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(msg, "Billedet er ikke uplodaet til firebase storage");
+                Log.d(msg, "Icon is not uploaded to firebase storage");
             }
         });
 
+    }
 
+    private void removeIconToStorage(String key) {
+        StorageReference reference = mStorageRef.child(key);
+
+        reference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Log.d(msg, "Icon removed from storage");
+            }
+        });
     }
 
     @Override
@@ -322,12 +334,12 @@ public class BackgroundService extends Service {
     private SimpleDateFormat timeFormat;
     private Timestamp timestamp;
 
-    private void setNotification() {
+    private void setNotification(String navn) {
         notifications = new Notifications(this);
 
         notification = new NotificationCompat.Builder(this, Notifications.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.drinkslogo)
-                .setContentText(getResources().getString(R.string.lessthanfivedrinksleft))
+                .setContentText(String.format(getResources().getString(R.string.lessthanfivedrinksleft) + " "+ navn))
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notifications.pendingIntent)
