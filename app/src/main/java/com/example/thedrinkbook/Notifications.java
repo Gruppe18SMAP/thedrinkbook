@@ -23,8 +23,8 @@ public class Notifications {
     public Notifications(Context context) {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "DrinkBook";
-            String description = "Notifikation fra DrinkBook";
+            CharSequence name = context.getResources().getString(R.string.app_name);
+            String description = context.getResources().getString(R.string.notification_description);
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);

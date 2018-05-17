@@ -44,4 +44,5 @@
     <string name="lessthanfivedrinksleft">There is now less than 5 drinks of</string>
     <string name="Paymentfailed">Payment failed</string>
     <string name="paymentCanceled">Payment canceled</string>
+    <string name="notification_description">Notification from TheDrinkBook</string>
 </resources>
