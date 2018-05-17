@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -208,6 +209,14 @@ public class BackgroundService extends Service {
         }
     }
 
+    public void startloadIconBuyRunnable(Context c, String url, ImageView imageview)
+    {
+        Icon icon = new Icon(c, url, imageview);
+        icons.add(icon);
+        handler.post(runnableLoadIcon);
+        iconCount = 0; elementCount = 0;
+    }
+
     /**
      * Runnable for load of icons from storage
      */
@@ -347,6 +356,12 @@ public class BackgroundService extends Service {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationsID, notification);
     }
+
+
+    //public void savePreferences(ArrayList<Object> dataObject){
+      //  SharedPreferences.Editor editor = getSharedPreferences("preferences", MODE_PRIVATE.edit();
+        //editor.pu("Data", dataObject);
+    //}
 
 
 }

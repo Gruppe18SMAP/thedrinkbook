@@ -64,7 +64,11 @@ public class BuyActivity extends AppCompatActivity {
 
         getSelectedData();
 
-        BA.updateDrinkList(drinkList, bgservice);
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
+        Log.d(LOG, "Binded to backgroundservice");
+
+        //BA.updateDrinkList(drinkList, bgservice);
 
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +115,7 @@ public class BuyActivity extends AppCompatActivity {
         drink = new Drink();
         BA = new buyAdaptor(this, drinkList);
 
+
         totalPrice = 0;
 
         lvChosenDrinks.setAdapter(BA);
@@ -119,9 +124,8 @@ public class BuyActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Intent serviceIntent = new Intent(this, BackgroundService.class);
-        bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
-        Log.d(LOG, "Binded to backgroundservice");
+
+
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {

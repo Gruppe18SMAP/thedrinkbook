@@ -97,7 +97,7 @@ public class selectAdaptor extends BaseAdapter {
             tvDrinkName = convertView.findViewById(R.id.txtDrinkname);
             tvDrinkName.setText(drink.Navn);
             tvDrinkPrice = convertView.findViewById(R.id.txtDrinkPrice);
-            tvDrinkPrice.setText(String.valueOf(drink.Pris));
+            tvDrinkPrice.setText(String.valueOf(drink.Pris) + " kroner");
 
 
             imgSodaicon  = convertView.findViewById(R.id.imgSodaicon);

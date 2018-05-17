@@ -98,7 +98,7 @@ public class buyAdaptor extends BaseAdapter {
             ImageView imgSodaicon = convertView.findViewById(R.id.imgSodaicon);
 
             if(bgservice != null){
-                bgservice.startloadIconRunnable(this.context, drink.Ikon, imgSodaicon);
+                bgservice.startloadIconBuyRunnable(this.context, drink.Ikon, imgSodaicon);
             }
 
             //Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
