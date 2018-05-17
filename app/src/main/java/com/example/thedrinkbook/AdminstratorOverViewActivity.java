@@ -11,8 +11,10 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +44,18 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
        initializeObjects();
         serviceIntent = new Intent(this, BackgroundService.class);
         startService(serviceIntent);
+
+        lvDrinksAdmin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+                Toast.makeText(AdminstratorOverViewActivity.this, "long clicked, "+"pos: " + i, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
     }
+
 
     private void initializeObjects() {
         btnRefill = findViewById(R.id.bntFill);
