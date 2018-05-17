@@ -3,16 +3,20 @@ package com.example.thedrinkbook;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +46,42 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
        initializeObjects();
         serviceIntent = new Intent(this, BackgroundService.class);
         startService(serviceIntent);
+
+        lvDrinksAdmin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                AlertDialog.Builder alertDialog = new AlertDialog.Builder(AdminstratorOverViewActivity.this);
+
+                alertDialog.setTitle(R.string.titleActionDialog);
+                alertDialog.setMessage(R.string.Teksttilactiondialog);
+
+                final Drink drink = drinks.get(i);
+
+                alertDialog.setPositiveButton(R.string.Ja, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Toast.makeText(getApplicationContext(), R.string.Duslettedeprodukt, Toast.LENGTH_SHORT).show();
+                        bgservice.removeProduct(drink);
+                    }
+                });
+
+                alertDialog.setNegativeButton(R.string.Nej, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getApplicationContext(), R.string.duslettedeikkeproduktet, Toast.LENGTH_SHORT).show();
+
+                    }
+
+
+                });
+
+                alertDialog.show();
+                return false;
+            }
+
+        });
     }
 
     private void initializeObjects() {

@@ -45,4 +45,9 @@
     <string name="Paymentfailed">Payment failed</string>
     <string name="paymentCanceled">Payment canceled</string>
     <string name="titleActionDialog">Delete product</string>
+    <string name="Teksttilactiondialog">Do you want to delete the product?</string>
+    <string name="Duslettedeprodukt">You deleted the product</string>
+    <string name="duslettedeikkeproduktet">You did not delete the product</string>
+    <string name="Ja">Yes</string>
+    <string name="Nej">No</string>
 </resources>

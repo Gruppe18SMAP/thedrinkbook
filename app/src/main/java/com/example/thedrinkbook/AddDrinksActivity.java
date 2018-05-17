@@ -3,14 +3,15 @@ package com.example.thedrinkbook;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -26,7 +27,6 @@ public class AddDrinksActivity extends AppCompatActivity {
     Button bntSaveAddProduct, bntAddProduct, bntCancelAdmin;
     ListView lvAddDrinksAdmin;
 
-    static final String LOG = "AddDrinksActivity";
     ArrayList<Drink> drinkList;
     AddDrinksAdaptor addDrinksAdaptor;
     BackgroundService bgservice;
@@ -48,14 +48,6 @@ public class AddDrinksActivity extends AppCompatActivity {
             }
         });
 
-        lvAddDrinksAdmin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Toast.makeText(AddDrinksActivity.this, lvAddDrinksAdmin.getItemAtPosition(i).toString(), Toast.LENGTH_LONG).show();
-                return false;
-            }
-        });
 
         bntCancelAdmin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +90,6 @@ public class AddDrinksActivity extends AppCompatActivity {
                     }
 
                 }
-                Log.d(LOG, "Updating amount...");
                 bgservice.updateAmount(updateList);
                 finish();
             }
@@ -126,7 +117,6 @@ public class AddDrinksActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
-        Log.d(LOG, "Binds to backgroundservice");
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
@@ -141,7 +131,6 @@ public class AddDrinksActivity extends AppCompatActivity {
 
             drinkList = bgservice.getDrinksList();
             addDrinksAdaptor.updateDrinkList(drinkList);
-            Log.d(LOG, "Listview updated");
         }
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
@@ -155,7 +144,6 @@ public class AddDrinksActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             drinkList = (ArrayList<Drink>)intent.getSerializableExtra(BackgroundService.LOAD_RESULT);
             addDrinksAdaptor.updateDrinkList(drinkList);
-            Log.d(LOG, "Broadcast recieved");
         }
     };
 
@@ -169,7 +157,6 @@ public class AddDrinksActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
-        Log.d(LOG, "Unbinded to backgroundservice");
     }
 
 
