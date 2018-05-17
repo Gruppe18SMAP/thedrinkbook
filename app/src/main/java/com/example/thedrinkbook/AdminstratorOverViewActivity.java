@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -35,7 +34,6 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
     private BackgroundService bgservice;
 
     static final int REQUEST_DRINKS= 1;
-    static final String LOG = "AdminOverViewActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +42,6 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
        initializeObjects();
         serviceIntent = new Intent(this, BackgroundService.class);
         startService(serviceIntent);
-        Log.d(LOG, "Starts backgroundservice");
     }
 
     private void initializeObjects() {
@@ -79,7 +76,6 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         super.onStart();
 
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
-        Log.d(LOG, "Binded to backgroundservice");
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
@@ -91,7 +87,6 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
             bgservice = binder.getService();
-
         }
 
         @Override
@@ -104,10 +99,8 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.d(LOG, "Broadcast received");
             drinks = (ArrayList<Drink>)intent.getSerializableExtra(BackgroundService.LOAD_RESULT);
             listviewAdapter.updateDrinkList(drinks);
-            Log.d(LOG, "Listview updated");
         }
     };
 
@@ -132,7 +125,6 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
         unbindService(serviceConnection);
-        Log.d(LOG, "Unbinded to backgroundservice");
         stopService(serviceIntent);
     }
 }
