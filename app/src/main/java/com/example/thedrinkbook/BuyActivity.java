@@ -165,18 +165,22 @@ public class BuyActivity extends AppCompatActivity {
                         startActivityForResult(confirmIntent, CONFIRM_REQUEST_CODE);
 
                         bgservice.boughtFromDatabase(drinkList);
+                        Log.d(LOG, "Payment accepted");
+
                     }
 
                     @Override
                     public void onFailure(FailureResult failureResult) {
                         Toast failureToast = Toast.makeText(BuyActivity.this, getResources().getString(R.string.Paymentfailed), Toast.LENGTH_LONG);
                         failureToast.show();
+                        Log.d(LOG, "Payment failed");
                     }
 
                     @Override
                     public void onCancel() {
                         Toast cancelToast = Toast.makeText(BuyActivity.this, getResources().getString(R.string.paymentCanceled), Toast.LENGTH_LONG);
                         cancelToast.show();
+                        Log.d(LOG, "Payment canceled");
                     }
                 });
             }
@@ -196,5 +200,7 @@ public class BuyActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbindService(serviceConnection);
+        Log.d(LOG, "Unbinded to backgroundservice");
+
     }
 }
