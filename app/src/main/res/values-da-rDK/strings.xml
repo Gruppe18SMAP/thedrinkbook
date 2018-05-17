@@ -43,4 +43,10 @@
     <string name="lessthanfivedrinksleft">Der er nu under 5 drikkevarer af</string>
     <string name="Paymentfailed">Betaling mislykkedes</string>
     <string name="paymentCanceled">Betaling annulleret</string>
+    <string name="titleActionDialog">Slet produkt</string>
+    <string name="Teksttilactiondialog">"Vil du slette produktet? "</string>
+    <string name="Duslettedeprodukt">Du slettede produktet</string>
+    <string name="Ja">Ja</string>
+    <string name="duslettedeikkeproduktet">Du slettede ikke produktet</string>
+    <string name="Nej">Nej</string>
 </resources>

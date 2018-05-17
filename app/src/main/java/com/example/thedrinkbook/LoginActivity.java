@@ -2,6 +2,7 @@ package com.example.thedrinkbook;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 // Implements View.OnClickListener to override the onClick method
@@ -48,6 +51,20 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         // initialize objects
         initializeObjects();
+
+        if(savedInstanceState != null)
+        {
+            etMail.setText(savedInstanceState.getString("email"));
+            etPassword.setText(savedInstanceState.getString("password"));
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("email",etMail.getText().toString());
+        outState.putString("password", etPassword.getText().toString());
+        super.onSaveInstanceState(outState);
     }
 
     private void initializeObjects() {
@@ -64,13 +81,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Check if user is signed in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         checkRole(currentUser);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        etMail.getText().clear();
-        etPassword.getText().clear();
     }
 
     private void signIn(String mail, String password){
@@ -178,4 +188,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
+
+    //public void gennemgåListe(){
+        //for(int e=0; e < elements; e++) {
+            //View listview = lvDrinks.getChildAt(e);
+      //  Object data = new Object();
+        //ArrayList<Object> dataToSave = new ArrayList<>();
+          //  if(etMail.getText().toString() != null){
+            //    data.Key = mail;
+              //  data.Value = etMail.getText().toString();
+                // dataToSave.add(data)
+            //}
+    //}
 }
