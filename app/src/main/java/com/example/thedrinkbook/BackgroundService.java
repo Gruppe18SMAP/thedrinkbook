@@ -208,6 +208,14 @@ public class BackgroundService extends Service {
         }
     }
 
+    public void startloadIconBuyRunnable(Context c, String url, ImageView imageview)
+    {
+        Icon icon = new Icon(c, url, imageview);
+        icons.add(icon);
+        handler.post(runnableLoadIcon);
+        iconCount = 0; elementCount = 0;
+    }
+
     /**
      * Runnable for load of icons from storage
      */
