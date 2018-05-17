@@ -283,8 +283,8 @@ public class BackgroundService extends Service {
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-        byte[] data = outputStream.toByteArray();
 
+        byte[] data = outputStream.toByteArray();
         StorageReference reference = mStorageRef.child(key);
 
         UploadTask UT = reference.putBytes(data);
@@ -292,7 +292,7 @@ public class BackgroundService extends Service {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Uri iconUri = taskSnapshot.getDownloadUrl();
-               String iconString = iconUri.getPath();
+                String iconString = iconUri.getPath();
                 databaseDrinks.child(key).child("Ikon").setValue(iconString);
                 Log.d(msg, "Billedet er uploadet til firebase storage");
             }
