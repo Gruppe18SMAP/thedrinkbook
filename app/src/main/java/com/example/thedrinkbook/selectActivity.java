@@ -71,26 +71,11 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
         LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
 
-        if(savedInstanceState != null){
-            ArrayList<Integer> amounts = savedInstanceState.getIntegerArrayList("amount");
-
-            for (int e = 0; e < amounts.size(); e++){
-                Integer amount = amounts.get(e);
-                View childAt = lvDrinks.getChildAt(e);
-                EditText viewById = childAt.findViewById(R.id.txtAmount);
-                viewById.setText(amount.toString());
-            }
-        }
-
-
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         int elements = lvDrinks.getAdapter().getCount();
-
-        ArrayList<Integer> amounts = new ArrayList<>();
-
 
         for (int e = 0; e < elements; e++) {
             View listView = lvDrinks.getChildAt(e);
@@ -103,11 +88,33 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
                 intAmount = Integer.parseInt(stringAmount);
             }
 
-            amounts.add(intAmount);
+            if (intAmount != 0) {
+                Drink selectedDrink = new Drink();
+
+                for (Drink drink : drinks) {
+                    if (drink.Navn.equals(tvName.getText().toString())) {
+                        if(drink.Antal >= intAmount) {
+                            selectedDrink = new Drink(drink);
+                            selectedDrink.Antal = intAmount;
+                        }
+                        else{
+                            emptyInDatabase.add(drink);
+                        }
+                    }
+                }
+                if(selectedDrink.Navn != null) {
+                    selectedDrinks.add(selectedDrink);
+                }
+            }
         }
 
-        outState.putIntegerArrayList("amount", amounts);
 
+
+
+        for(e=0; e>elements; e++){
+            View listView = lvDrinks.getChildAt(e);
+        }
+        outState.put
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
