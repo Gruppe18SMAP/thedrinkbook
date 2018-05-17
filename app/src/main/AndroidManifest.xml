@@ -20,7 +20,8 @@
         <activity android:name=".selectActivity" />
         <activity android:name=".BuyActivity" />
         <activity android:name=".confirmActivity" />
-        <activity android:name=".AdminstratorOverViewActivity" />
+        <activity android:name=".AdminstratorOverViewActivity"
+            android:parentActivityName=".LoginActivity"/>
         <activity android:name=".AddDrinksActivity" />
         <activity android:name=".AddProductActivity" />
 
