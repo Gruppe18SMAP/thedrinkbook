@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.IBinder;
+import android.os.PersistableBundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -70,6 +71,51 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
         LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        int elements = lvDrinks.getAdapter().getCount();
+
+        for (int e = 0; e < elements; e++) {
+            View listView = lvDrinks.getChildAt(e);
+            final TextView tvName = listView.findViewById(R.id.txtDrinkname);
+            EditText etAmount = listView.findViewById(R.id.txtAmount);
+            String stringAmount = etAmount.getText().toString();
+
+            Integer intAmount = 0;
+            if (!stringAmount.equals("")) {
+                intAmount = Integer.parseInt(stringAmount);
+            }
+
+            if (intAmount != 0) {
+                Drink selectedDrink = new Drink();
+
+                for (Drink drink : drinks) {
+                    if (drink.Navn.equals(tvName.getText().toString())) {
+                        if(drink.Antal >= intAmount) {
+                            selectedDrink = new Drink(drink);
+                            selectedDrink.Antal = intAmount;
+                        }
+                        else{
+                            emptyInDatabase.add(drink);
+                        }
+                    }
+                }
+                if(selectedDrink.Navn != null) {
+                    selectedDrinks.add(selectedDrink);
+                }
+            }
+        }
+
+
+
+
+        for(e=0; e>elements; e++){
+            View listView = lvDrinks.getChildAt(e);
+        }
+        outState.put
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
