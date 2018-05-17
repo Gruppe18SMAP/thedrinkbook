@@ -61,10 +61,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(Bundle outState) {
         outState.putString("email",etMail.getText().toString());
         outState.putString("password", etPassword.getText().toString());
-        super.onSaveInstanceState(outState, outPersistentState);
+        super.onSaveInstanceState(outState);
     }
 
     private void initializeObjects() {
@@ -81,13 +81,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // Check if user is signed in
         FirebaseUser currentUser = mAuth.getCurrentUser();
         checkRole(currentUser);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        etMail.getText().clear();
-        etPassword.getText().clear();
     }
 
     private void signIn(String mail, String password){
