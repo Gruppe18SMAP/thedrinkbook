@@ -107,6 +107,15 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         }
+
+
+
+
+        for(e=0; e>elements; e++){
+            View listView = lvDrinks.getChildAt(e);
+        }
+        outState.put
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
