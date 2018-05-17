@@ -1,7 +1,9 @@
 package com.example.thedrinkbook;
 
 
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,9 @@ import java.util.List;
 
 public class selectAdaptor extends BaseAdapter {
 
+    private BackgroundService bgservice;
+
+
     private Context context;
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
@@ -40,7 +45,8 @@ public class selectAdaptor extends BaseAdapter {
         this.drinklist = drinklist;
     }
 
-    public void updateDrinks(List<Drink> drinkList){
+    public void updateDrinks(List<Drink> drinkList, BackgroundService service){
+        this.bgservice = service;
         this.drinklist = drinkList;
         notifyDataSetChanged();
     }
@@ -96,7 +102,11 @@ public class selectAdaptor extends BaseAdapter {
 
             imgSodaicon  = convertView.findViewById(R.id.imgSodaicon);
 
-            Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
+            if(bgservice != null){
+              bgservice.startloadIconRunnable(this.context, drink.Ikon, imgSodaicon);
+            }
+
+            //            Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 
             /*int amount = drink.Antal;
             tvAmount = convertView.findViewById(R.id.txtAmount);
@@ -106,11 +116,8 @@ public class selectAdaptor extends BaseAdapter {
         else {
             return null;
         }
-        convertView = convertView;
         return convertView;
 
     }
 
-    public void createList(){
-    }
 }

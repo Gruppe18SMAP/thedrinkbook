@@ -11,6 +11,7 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -45,6 +46,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
     private selectAdaptor listviewAdapter;
     private BackgroundService bgservice;
     Intent serviceIntent;
+    final static String LOG = "SelectActivity";
 
     // For the intent starting the Buy activity
     public static final String SELECTEDDRINKS = "Selected drinks";
@@ -57,7 +59,22 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
         serviceIntent = new Intent(this, BackgroundService.class);
         startService(serviceIntent);
+        Log.d(LOG, "Starts backgroundservice");
+
+        bindService(serviceIntent,serviceConnection,Context.BIND_AUTO_CREATE);
+        Log.d(LOG, "Binded to backgroundservice");
+
         initializeObjects();
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
+        LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     private void initializeObjects() {
@@ -73,17 +90,6 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
         listviewAdapter = new selectAdaptor(this,drinks);
         lvDrinks.setAdapter(listviewAdapter);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        bindService(serviceIntent,serviceConnection,Context.BIND_AUTO_CREATE);
-
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
-        LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
     }
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -104,7 +110,8 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         @Override
         public void onReceive(Context context, Intent intent) {
             drinks = (ArrayList<Drink>)intent.getSerializableExtra(BackgroundService.LOAD_RESULT);
-            listviewAdapter.updateDrinks(drinks);
+            listviewAdapter.updateDrinks(drinks, bgservice);
+            Log.d(LOG, "Broadcast recived");
         }
     };
 
@@ -176,6 +183,8 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
                     emptyDBToast.show();
                 }
 
+            Log.d(LOG, "Drinks selected");
+
             }
         else if(viewId == R.id.bntLogout){
             FirebaseAuth.getInstance().signOut();
@@ -214,5 +223,6 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         super.onDestroy();
         unbindService(serviceConnection);
         stopService(serviceIntent);
+        Log.d(LOG, "Unbinded to backgroundservice");
     }
 }

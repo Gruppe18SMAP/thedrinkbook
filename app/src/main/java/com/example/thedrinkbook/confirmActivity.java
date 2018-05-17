@@ -2,6 +2,7 @@ package com.example.thedrinkbook;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,6 +13,7 @@ public class confirmActivity extends AppCompatActivity {
 
     Button bntLogOutConfirm, bntOK;
     int CONFIRM_REQUEST_CODE = 142;
+    final static String LOG = "ConfirmActivity";
 
 
     @Override
@@ -24,6 +26,7 @@ public class confirmActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                Log.d(LOG, "User loggedout");
                 finish();
             }
         });

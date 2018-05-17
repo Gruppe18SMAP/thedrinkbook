@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,6 +33,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
     DatabaseReference databaseUsers = drinkDatabase.child("Users");
 
+    final static String LOG = "LoginActvity";
     EditText etMail, etPassword;
     Button btnLogin;
 
@@ -76,21 +78,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        mAuth.signInWithEmailAndPassword(mail,password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            checkRole(user);
-                        }
+        String connectStat = NetworkChecker.getNetworkStatus(this);
+        if(connectStat == null) {
+            mAuth.signInWithEmailAndPassword(mail, password)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                checkRole(user);
+                            } else {
+                                Toast.makeText(LoginActivity.this, getResources().getString(R.string.failed_authentification), Toast.LENGTH_LONG).show();
+                            }
 
-                        else{
-                            Toast.makeText(LoginActivity.this,"Authentication failed.", Toast.LENGTH_LONG).show();
                         }
-
-                    }
-                });
+                    });
+        } else{
+            Toast.makeText(LoginActivity.this, connectStat, Toast.LENGTH_LONG).show();
+        }
     }
 
     private boolean validateForm() {
@@ -98,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String mail = etMail.getText().toString();
         if(TextUtils.isEmpty(mail)){
-            etMail.setError("Required");
+            etMail.setError(getResources().getString(R.string.required_field));
             valid = false;
         }
         else{
@@ -107,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         String password = etPassword.getText().toString();
         if(TextUtils.isEmpty(password)){
-            etPassword.setError("Required");
+            etPassword.setError(getResources().getString(R.string.required_field));
             valid = false;
         }
         else{
@@ -120,6 +125,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void checkRole(FirebaseUser currentUser) {
         if(currentUser != null) {
             String userUid = currentUser.getUid();
+            Log.d(LOG, "Checking role...");
             DatabaseReference dbRole = databaseUsers.child(userUid).child("Rolle");
             dbRole.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -129,7 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         updateUI(valueRole);
                     }
                     else{
-                        Toast.makeText(LoginActivity.this,"User has no role.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginActivity.this,(getResources().getString(R.string.failed_authentification)), Toast.LENGTH_LONG).show();
                     }
                 }
 
@@ -144,9 +150,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void updateUI(String valueRole) {
         if(valueRole.equals("Admin"))
         {
+            Log.d(LOG, "Adminstrator login");
             startActivityForResult(new Intent(LoginActivity.this, AdminstratorOverViewActivity.class),LOGIN_REQUEST);
         }
         else if(valueRole.equals("User")){
+            Log.d(LOG, "User login ");
             startActivityForResult(new Intent(LoginActivity.this, selectActivity.class), LOGIN_REQUEST);
         }
     }
