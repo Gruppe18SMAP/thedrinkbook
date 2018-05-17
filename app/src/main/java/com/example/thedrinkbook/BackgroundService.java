@@ -154,7 +154,7 @@ public class BackgroundService extends Service {
                 Drink drink = dataSnapshot.getValue(Drink.class);
                 drink.Key = dataSnapshot.getKey();
 
-                Log.d(msg, "Drinks is changes");
+                Log.d(msg, "Drink changes");
                 for(int i = 0; i < drinksList.size(); i++){
                     if(drinksList.get(i).Key.equals(drink.Key)){
                         drinksList.remove(i);
@@ -162,6 +162,11 @@ public class BackgroundService extends Service {
                         broadcastLoadResult(drinksList);
                     }
                 }
+                if(drink.Antal < 5)
+                {
+                    setNotification(drink.Navn);
+                }
+
             }
 
             @Override
@@ -294,15 +299,14 @@ public class BackgroundService extends Service {
                 Uri iconUri = taskSnapshot.getDownloadUrl();
                 String iconString = iconUri.getPath();
                 databaseDrinks.child(key).child("Ikon").setValue(iconString);
-                Log.d(msg, "Billedet er uploadet til firebase storage");
+                Log.d(msg, "Icon is uploaded to firebase storage");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d(msg, "Billedet er ikke uplodaet til firebase storage");
+                Log.d(msg, "Icon is not uploaded to firebase storage");
             }
         });
-
 
     }
 
@@ -321,12 +325,12 @@ public class BackgroundService extends Service {
     private SimpleDateFormat timeFormat;
     private Timestamp timestamp;
 
-    private void setNotification() {
+    private void setNotification(String navn) {
         notifications = new Notifications(this);
 
         notification = new NotificationCompat.Builder(this, Notifications.CHANNEL_ID)
                 .setSmallIcon(R.mipmap.drinkslogo)
-                .setContentText(getResources().getString(R.string.lessthanfivedrinksleft))
+                .setContentText(String.format(getResources().getString(R.string.lessthanfivedrinksleft) + " "+ navn))
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(notifications.pendingIntent)
@@ -335,6 +339,8 @@ public class BackgroundService extends Service {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationsID, notification);
     }
+
+
 
 
 }

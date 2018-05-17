@@ -171,4 +171,6 @@ public class AddDrinksActivity extends AppCompatActivity {
         unbindService(serviceConnection);
         Log.d(LOG, "Unbinded to backgroundservice");
     }
+
+
 }
