@@ -44,7 +44,7 @@ public class selectAdaptor extends BaseAdapter {
         this.context = context;
         this.drinklist = drinklist;
     }
-
+//updates the listview
     public void updateDrinks(List<Drink> drinkList, BackgroundService service){
         this.bgservice = service;
         this.drinklist = drinkList;
@@ -81,6 +81,7 @@ public class selectAdaptor extends BaseAdapter {
         return 0;
     }
 
+    //set the objects in the listview
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //If the current view is not created, a new inflator will be created

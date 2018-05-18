@@ -26,9 +26,6 @@ import java.util.ArrayList;
 
 public class AdminstratorOverViewActivity extends AppCompatActivity implements View.OnClickListener {
 
-    DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
-
     Button btnRefill, btnLogout;
     ListView lvDrinksAdmin;
     ArrayList<Drink> drinks;
@@ -83,7 +80,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
 
         });
     }
-
+//initilize the objects
     private void initializeObjects() {
         btnRefill = findViewById(R.id.bntFill);
         btnLogout = findViewById(R.id.bntLogoutAdminOverview);
@@ -95,7 +92,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         listviewAdapter = new AdminOverviewAdaptor(this, drinks);
         lvDrinksAdmin.setAdapter(listviewAdapter);
     }
-
+//opens the other activities
     @Override
     public void onClick(View view) {
         int viewId = view.getId();
@@ -111,6 +108,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
 
     }
 
+    //binds to the service and set up an intentfilter for the background service.
     @Override
     protected void onStart() {
         super.onStart();
@@ -122,6 +120,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
     }
 
+    //initiate the service when the service is connected.
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -135,6 +134,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         }
     };
 
+    //recives the broadcast and updates the listview.
     private BroadcastReceiver onBackgroundServiceLoadResult = new BroadcastReceiver(){
 
         @Override
@@ -144,14 +144,11 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         }
     };
 
+    //
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if(requestCode == 12){
-            if(resultCode == RESULT_CANCELED){
 
-            }
-        }*/
     }
 
     @Override
@@ -160,6 +157,7 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
 
     }
 
+    //unbinds the service and stops the service.
     @Override
     protected void onDestroy() {
         super.onDestroy();

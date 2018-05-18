@@ -63,7 +63,6 @@ public class buyAdaptor extends BaseAdapter {
     public long getItemId(int position) {
         if(drinklist != null)
         {
-            //return drinklist.get(position).navn;
             return 0;
         }
         else
@@ -71,7 +70,7 @@ public class buyAdaptor extends BaseAdapter {
             return 0;
         }
     }
-
+    //set the objects in the listview
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -101,7 +100,6 @@ public class buyAdaptor extends BaseAdapter {
                 bgservice.startloadIconBuyRunnable(this.context, drink.Ikon, imgSodaicon);
             }
 
-            //Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 
         }
         else

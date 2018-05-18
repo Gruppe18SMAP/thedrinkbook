@@ -72,7 +72,7 @@ public class BackgroundService extends Service {
     private String iconStartAddress = "https://firebasestorage.googleapis.com";
 
 
-
+    //When activities want to bind to the service, this methode is called.
     public class BackgroundServiceBinder extends Binder {
         BackgroundService getService(){
             return BackgroundService.this;
@@ -100,6 +100,7 @@ public class BackgroundService extends Service {
         return START_NOT_STICKY;
         //return super.onStartCommand(intent, flags, startId);
     }
+
 
     public void loadFromDrinksDatabase() {
         drinkDatabase.addChildEventListener(new ChildEventListener() {
@@ -229,16 +230,19 @@ public class BackgroundService extends Service {
         }
     };
 
+    //loads the icon and showes it on a imageview.
     private void loadIcon() {
         for (Icon icon : icons) {
             Picasso.with(icon.c).load(icon.url).into(icon.imageview);
         }
     }
 
+    //returns the list of drinks
     public ArrayList<Drink> getDrinksList() {
         return drinksList;
     }
 
+    //sends the result to the activities when changes is detected
     private void broadcastLoadResult(ArrayList<Drink> listOfDrinks) {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(BROADCAST_BACKGROUNDSERVICE_LOAD);
@@ -252,6 +256,7 @@ public class BackgroundService extends Service {
     public IBinder onBind(Intent intent) { return binder;
     }
 
+    //Is called when drinks is bought and updates the firebase with the new ammount.
     public void boughtFromDatabase(ArrayList<Drink> boughtDrinks) {
         for(Drink boughtDrink : boughtDrinks) {
             for(Drink dbDrink : drinksList) {
@@ -264,6 +269,7 @@ public class BackgroundService extends Service {
         }
     }
 
+    //Is called when the admin has refilled the drinks and updates the firebase with the new ammount.
     public void updateAmount(ArrayList<Drink> updatedDrinks){
         for(Drink updatedDrink : updatedDrinks) {
             for(Drink dbDrink : drinksList) {
@@ -277,17 +283,21 @@ public class BackgroundService extends Service {
 
     }
 
+    // Is called when a product is added. updates the firebase with the new drink.
     public void addProduct(Drink drink)
     {
         databaseDrinks.child(drink.Key).setValue(drink);
         Log.d(msg, "Product is added");
     }
 
+    //Is called when the admin has deleted a drink. updates firebase.
     public void removeProduct(Drink drink){
         databaseDrinks.child(drink.Key).removeValue();
     }
 
     //Is inspired from https://stackoverflow.com/questions/40885860/how-to-save-bitmap-to-firebase;
+    //Is called when a new product is added. Converts the bitmap to a byte and puts the byte in firebase storage.
+    // the url to storage location is get by a Uri.
     public void uploadIconToStorage(final String key, Bitmap bitmap)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -316,6 +326,7 @@ public class BackgroundService extends Service {
 
     }
 
+    //Deletes the icon in firebase storage when the admin deletes the product in firebase database.
     private void removeIconToStorage(String key) {
         StorageReference reference = mStorageRef.child(key);
 

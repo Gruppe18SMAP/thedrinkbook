@@ -27,7 +27,7 @@ public class AddDrinksAdaptor extends BaseAdapter {
     EditText txtAmount;
     private int firstVisibleItem = 0, lastVisibleItem = 0;
 
-
+//constructor
     public AddDrinksAdaptor(Context context, ArrayList<Drink> drinklist) {
         this.drinklist = drinklist;
         this.context = context;
@@ -35,7 +35,7 @@ public class AddDrinksAdaptor extends BaseAdapter {
 
 
     }
-
+//updates the listview with drinks.
     public void updateDrinkList(ArrayList<Drink> drinkList, int firstVisibleItem, int lastVisibleItem){
         this.drinklist = drinkList;
         amountlist = new String[drinkList.size()];
@@ -72,6 +72,7 @@ public class AddDrinksAdaptor extends BaseAdapter {
         return 0;
     }
 
+    //set the objects in the listview
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 

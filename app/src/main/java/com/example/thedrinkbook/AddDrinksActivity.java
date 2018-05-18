@@ -52,6 +52,7 @@ public class AddDrinksActivity extends AppCompatActivity {
             }
         });
 
+        //adds the new amount to the drink and updated drink to a list of drinks.
         bntSaveAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,12 +100,15 @@ public class AddDrinksActivity extends AppCompatActivity {
                     }
 
                 }*/
+
+                //updates the amount in the service.
                 bgservice.updateAmount(updateList);
                 finish();
             }
         });
     }
 
+    //initialise the objects.
     private void Initialiseobjects() {
 
         bntSaveAddProduct = findViewById(R.id.bntSaveAddProduct);
@@ -145,11 +149,14 @@ public class AddDrinksActivity extends AppCompatActivity {
         super.onStart();
         bindService(serviceIntent,serviceConnection, Context.BIND_AUTO_CREATE);
 
+        //set up an intent filter, for the background service.
         IntentFilter filter = new IntentFilter();
         filter.addAction(BackgroundService.BROADCAST_BACKGROUNDSERVICE_LOAD);
         LocalBroadcastManager.getInstance(this).registerReceiver(onBackgroundServiceLoadResult, filter);
     }
 
+
+    //initiate the background service and updates the listview.
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -165,6 +172,7 @@ public class AddDrinksActivity extends AppCompatActivity {
         }
     };
 
+    //Recieves the broadcast when changes is detected.
     private BroadcastReceiver onBackgroundServiceLoadResult = new BroadcastReceiver(){
 
         @Override
@@ -174,12 +182,14 @@ public class AddDrinksActivity extends AppCompatActivity {
         }
     };
 
+    //unregister the broadcastreceiver
     @Override
     protected void onStop() {
         super.onStop();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(onBackgroundServiceLoadResult);
     }
 
+    //unbind the service
     @Override
     protected void onDestroy() {
         super.onDestroy();

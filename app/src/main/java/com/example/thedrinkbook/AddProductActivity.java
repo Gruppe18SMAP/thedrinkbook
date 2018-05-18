@@ -73,6 +73,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
+    //initialise the objects
     public void initiate() {
         txtProductName = findViewById(R.id.txtProductName);
         txtProductPrice = findViewById(R.id.txtProductPrice);
@@ -87,6 +88,8 @@ public class AddProductActivity extends AppCompatActivity {
         serviceIntent = new Intent(this, BackgroundService.class);
     }
 
+    //uploads the icon to firebase via service. The informations is taken from the edittext and
+    //added to a object.
     public void uploadProductToFirebase() {
 
         if(TextUtils.isEmpty(txtProductName.getText().toString())){
@@ -114,6 +117,7 @@ public class AddProductActivity extends AppCompatActivity {
 
 
     //inspired from https://developer.android.com/training/camera/photobasics.
+    //is called when the admin wants to take a picture
     //resolveActivity is called to make sure the app does not crash, if the app cannot handle the intent.
     private void takeAPhoto() {
         Intent PictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -124,6 +128,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
+    //when the picture is taken, the picture is showed in the imageview.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -135,7 +140,7 @@ public class AddProductActivity extends AppCompatActivity {
         }
     }
 
-
+//binds to the service
     @Override
     protected void onStart() {
         super.onStart();
@@ -144,6 +149,7 @@ public class AddProductActivity extends AppCompatActivity {
 
     }
 
+    //initiate when the service is connected
     private ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
@@ -158,6 +164,7 @@ public class AddProductActivity extends AppCompatActivity {
     };
 
 
+    //unbinds the service.
     @Override
     protected void onDestroy() {
         super.onDestroy();

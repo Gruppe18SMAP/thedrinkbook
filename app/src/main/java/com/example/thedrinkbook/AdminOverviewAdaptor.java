@@ -17,8 +17,6 @@ import java.util.List;
 public class AdminOverviewAdaptor extends BaseAdapter {
 
     private Context context;
-    DatabaseReference drinkDatabase = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference databaseDrinks = drinkDatabase.child("Drinks");
     List<Drink> drinklist;
     Drink drink;
 
@@ -30,7 +28,7 @@ public class AdminOverviewAdaptor extends BaseAdapter {
         this.drinklist = drinklist;
 
     }
-
+    //updates the listview
     public void updateDrinkList(List<Drink> drinkList){
         this.drinklist = drinkList;
         notifyDataSetChanged();
@@ -64,6 +62,7 @@ public class AdminOverviewAdaptor extends BaseAdapter {
         return 0;
     }
 
+    //sets the objects in listview
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         //If the current view is not created, a new inflator will be created
@@ -87,9 +86,6 @@ public class AdminOverviewAdaptor extends BaseAdapter {
 
             Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 
-            /*int amount = drink.Antal;
-            tvAmount = convertView.findViewById(R.id.txtAmount);
-            tvAmount.setText(String.valueOf(amount));*/
 
         }
         else {
