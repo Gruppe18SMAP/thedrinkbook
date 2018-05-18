@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        TheDrinkBook {
+            keyAlias 'TheDrinkBookKey'
+            keyPassword 'SmapGruppe18'
+            storeFile file('E:/AndroidStudioProjects/Keystores/theDrinkBook.jks')
+            storePassword 'SmapGruppe18'
+        }
+    }
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.thedrinkbook"
@@ -14,6 +22,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.TheDrinkBook
         }
     }
 }
@@ -29,7 +38,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.squareup.picasso:picasso:2.5.2'
 }
 
