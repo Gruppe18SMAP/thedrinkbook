@@ -21,7 +21,7 @@
     <string name="Picture_drink">Billede</string>
     <string name="ok">OK</string>
     <string name="pay">Betal</string>
-    <string name="no_chosen_items">Ingen produkter valgt</string>
+    <string name="no_chosen_items">Ingen produkt(er) valgt</string>
     <string name="empty_database">Vi har ikke flere: %1$s</string>
     <string name="drink_name">Drinknavn</string>
     <string name="imageview_description">Et ikon som repræsenterer produktet</string>
