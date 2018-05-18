@@ -10,37 +10,36 @@
         android:id="@+id/bntLogoutAdminOverview"
         android:layout_width="119dp"
         android:layout_height="48dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:background="#c3dceb"
         android:text="@string/logout"
         android:textColor="#17637d"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bntFill" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/bntFill"
         android:layout_width="119dp"
         android:layout_height="48dp"
+        android:layout_marginBottom="24dp"
         android:background="#c3dceb"
         android:text="@string/refill"
         android:textColor="#17637d"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.875"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="185dp" />
+        app:layout_constraintBottom_toTopOf="@+id/bntLogoutAdminOverview"
+        app:layout_constraintStart_toStartOf="@+id/bntLogoutAdminOverview" />
 
     <ListView
         android:id="@+id/lvDrinksAdmin"
-        android:layout_width="272dp"
-        android:layout_height="273dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.182"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="324dp"
+        android:layout_height="280dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

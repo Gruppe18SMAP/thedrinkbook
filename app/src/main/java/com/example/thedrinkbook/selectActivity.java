@@ -151,6 +151,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
             bgservice = binder.getService();
+            listviewAdapter.updateDrinks(drinks, bgservice);
         }
 
         @Override

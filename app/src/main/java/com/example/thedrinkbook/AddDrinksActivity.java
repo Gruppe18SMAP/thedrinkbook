@@ -3,22 +3,17 @@ package com.example.thedrinkbook;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -32,6 +27,7 @@ public class AddDrinksActivity extends AppCompatActivity {
     BackgroundService bgservice;
     ArrayList<Drink> updateList;
     Intent serviceIntent;
+    private int firstVisibleItem = 0, lastVisibleItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +55,22 @@ public class AddDrinksActivity extends AppCompatActivity {
         bntSaveAddProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int elements = lvAddDrinksAdmin.getAdapter().getCount();
+                //int elements = lvAddDrinksAdmin.getAdapter().getCount();
                 updateList.clear();
 
+                String[] amounts = addDrinksAdaptor.getAmounts();
+
+                for(int i=0; i < amounts.length; i++){
+                    if(amounts[i] != null){
+                        Drink updatedDrink = new Drink();
+                        updatedDrink = new Drink(drinkList.get(i));
+                        updatedDrink.Antal = Integer.parseInt(amounts[i]);
+                        updateList.add(updatedDrink);
+                    }
+                }
+
+
+/*
                 for (int i=0; i < elements; i++)
                 {
                     View lv = lvAddDrinksAdmin.getChildAt(i);
@@ -89,7 +98,7 @@ public class AddDrinksActivity extends AppCompatActivity {
 
                     }
 
-                }
+                }*/
                 bgservice.updateAmount(updateList);
                 finish();
             }
@@ -103,8 +112,26 @@ public class AddDrinksActivity extends AppCompatActivity {
         bntCancelAdmin = findViewById(R.id.bntCancelAdmin);
         lvAddDrinksAdmin = findViewById(R.id.lvAddDrinksAdmin);
 
+        firstVisibleItem = lvAddDrinksAdmin.getFirstVisiblePosition();
+        lastVisibleItem = lvAddDrinksAdmin.getLastVisiblePosition();
+
         addDrinksAdaptor = new AddDrinksAdaptor(this, drinkList);
         lvAddDrinksAdmin.setAdapter(addDrinksAdaptor);
+
+
+
+        lvAddDrinksAdmin.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstItem, int visibleItemCount, int totalItemCount) {
+                firstVisibleItem = lvAddDrinksAdmin.getFirstVisiblePosition();
+                lastVisibleItem = lvAddDrinksAdmin.getLastVisiblePosition();
+            }
+        });
 
         drinkList = new ArrayList<>();
         bgservice = new BackgroundService();
@@ -130,7 +157,7 @@ public class AddDrinksActivity extends AppCompatActivity {
             bgservice = binder.getService();
 
             drinkList = bgservice.getDrinksList();
-            addDrinksAdaptor.updateDrinkList(drinkList);
+            addDrinksAdaptor.updateDrinkList(drinkList, firstVisibleItem, lastVisibleItem);
         }
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
@@ -143,7 +170,7 @@ public class AddDrinksActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             drinkList = (ArrayList<Drink>)intent.getSerializableExtra(BackgroundService.LOAD_RESULT);
-            addDrinksAdaptor.updateDrinkList(drinkList);
+            addDrinksAdaptor.updateDrinkList(drinkList, firstVisibleItem, lastVisibleItem);
         }
     };
 

@@ -10,32 +10,25 @@
         android:id="@+id/bntAddProduct"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="80dp"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
         android:background="#c3dceb"
         android:text="@string/Add_product"
         android:textColor="#17637d"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/bntSaveAddProduct"
-        app:layout_constraintTop_toBottomOf="@id/bntSaveAddProduct" />
+        app:layout_constraintBottom_toTopOf="@+id/bntSaveAddProduct"
+        app:layout_constraintStart_toStartOf="@+id/bntSaveAddProduct" />
 
     <Button
         android:id="@+id/bntSaveAddProduct"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginBottom="24dp"
         android:background="#c3dceb"
         android:text="@string/save_refilling"
         android:textColor="#17637d"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@id/lvAddDrinksAdmin"
-        app:layout_constraintStart_toStartOf="@id/lvAddDrinksAdmin"
-        app:layout_constraintTop_toBottomOf="@id/lvAddDrinksAdmin" />
+        app:layout_constraintBottom_toTopOf="@+id/bntCancelAdmin"
+        app:layout_constraintStart_toStartOf="@+id/bntCancelAdmin" />
 
     <!--<ListView
         android:layout_width="368dp"
@@ -47,8 +40,8 @@
         android:id="@+id/txtHeaderAddDrink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/update_stock"
         android:textColor="#17637d"
@@ -61,22 +54,25 @@
         android:id="@+id/bntCancelAdmin"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="80dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:background="#c3dceb"
         android:text="@android:string/cancel"
         android:textColor="#17637d"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@id/bntSaveAddProduct"
-        app:layout_constraintTop_toBottomOf="@id/lvAddDrinksAdmin" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ListView
         android:id="@+id/lvAddDrinksAdmin"
-        android:layout_width="294dp"
-        android:layout_height="120dp"
+        android:layout_width="324dp"
+        android:layout_height="250dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
         android:background="#f0f0f0"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtHeaderAddDrink" />
 
