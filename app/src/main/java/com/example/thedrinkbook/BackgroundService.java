@@ -204,7 +204,8 @@ public class BackgroundService extends Service {
         Icon icon = new Icon(c, url, imageview);
         icons.add(icon);
         iconCount = iconCount+1;
-        elementCount = drinksList.size();
+        // Number of possible visible elements in the listview
+        elementCount = 6;
         if(iconCount == elementCount) {
             handler.post(runnableLoadIcon);
             iconCount = 0; elementCount = 0;
