@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thedrinkbook.AdminstratorOverViewActivity">
+
+    <Button
+        android:id="@+id/bntLogoutAdminOverview"
+        android:layout_width="119dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"
+        android:background="#c3dceb"
+        android:text="@string/logout"
+        android:textColor="#17637d"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bntFill" />
+
+    <Button
+        android:id="@+id/bntFill"
+        android:layout_width="119dp"
+        android:layout_height="48dp"
+        android:background="#c3dceb"
+        android:text="@string/refill"
+        android:textColor="#17637d"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.875"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="185dp" />
+
+    <ListView
+        android:id="@+id/lvDrinksAdmin"
+        android:layout_width="272dp"
+        android:layout_height="273dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
