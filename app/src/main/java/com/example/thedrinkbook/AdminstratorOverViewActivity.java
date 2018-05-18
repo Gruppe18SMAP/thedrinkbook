@@ -44,6 +44,8 @@ public class AdminstratorOverViewActivity extends AppCompatActivity implements V
         serviceIntent = new Intent(this, BackgroundService.class);
         startService(serviceIntent);
 
+        // long click listener til at slette et produkt
+
         lvDrinksAdmin.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {

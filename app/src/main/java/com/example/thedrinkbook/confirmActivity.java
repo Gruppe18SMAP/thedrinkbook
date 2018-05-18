@@ -21,6 +21,7 @@ public class confirmActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm);
 
+        // log-ud funktion
         bntLogOutConfirm = findViewById(R.id.bntLogOutConfirm);
         bntLogOutConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +33,7 @@ public class confirmActivity extends AppCompatActivity {
         });
 
         bntOK = findViewById(R.id.bntOK);
+        // sender brugeren til overview
         bntOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

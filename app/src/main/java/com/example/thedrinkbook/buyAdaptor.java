@@ -22,6 +22,7 @@ public class buyAdaptor extends BaseAdapter {
     List<Drink> drinklist;
     Drink drink;
 
+    // constructor
     public buyAdaptor(Context context, List<Drink> drinklist)
     {
         this.context = context;

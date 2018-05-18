@@ -5,6 +5,8 @@ import android.widget.ImageView;
 
 class Icon {
 
+    // properties i ikon
+
     Context c;
     String url;
     ImageView imageview;

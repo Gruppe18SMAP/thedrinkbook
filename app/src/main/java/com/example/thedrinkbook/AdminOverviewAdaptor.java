@@ -83,7 +83,7 @@ public class AdminOverviewAdaptor extends BaseAdapter {
 
 
             imgSodaicon  = convertView.findViewById(R.id.imgSodaicon);
-
+            // bruger picasso til billederne
             Picasso.with(this.context).load(drink.Ikon).into(imgSodaicon);
 
 

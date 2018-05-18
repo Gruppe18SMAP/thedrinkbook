@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Drink implements Serializable, Cloneable{
 
+    // properties i objektet drinks
         String Key;
         int Antal;
         String Ikon;

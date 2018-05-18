@@ -101,7 +101,7 @@ public class BackgroundService extends Service {
         //return super.onStartCommand(intent, flags, startId);
     }
 
-
+    // henter drinks fra databasen
     public void loadFromDrinksDatabase() {
         drinkDatabase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -199,6 +199,7 @@ public class BackgroundService extends Service {
         });
     }
 
+    // loader ikoner
     public void startloadIconRunnable(Context c, String url, ImageView imageview){
         Icon icon = new Icon(c, url, imageview);
         icons.add(icon);

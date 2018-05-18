@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 public class AddDrinksActivity extends AppCompatActivity {
 
+    // erklærer controller
     Button bntSaveAddProduct, bntAddProduct, bntCancelAdmin;
     ListView lvAddDrinksAdmin;
 

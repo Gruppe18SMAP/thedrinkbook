@@ -132,6 +132,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return valid;
     }
 
+    // checker om man er en bruger eller en administrator i firebase
     private void checkRole(FirebaseUser currentUser) {
         if(currentUser != null) {
             String userUid = currentUser.getUid();
@@ -156,7 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             });
         }
     }
-
+// viser aktivitet alt efter om man logger ind med administrtor eller bruger
     private void updateUI(String valueRole) {
         if(valueRole.equals("Admin"))
         {
