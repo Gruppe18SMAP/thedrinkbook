@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thedrinkbook.selectActivity">
+
+    <Button
+        android:id="@+id/bntLogout"
+        android:layout_width="153dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="#c3dceb"
+        android:text="@string/logout"
+        android:textColor="#17637d"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/bntBuy"
+        android:layout_width="154dp"
+        android:layout_height="52dp"
+        android:layout_marginBottom="24dp"
+        android:background="#c3dceb"
+        android:text="@string/buy"
+        android:textColor="#17637d"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/bntLogout"
+        app:layout_constraintStart_toStartOf="@+id/bntLogout" />
+
+    <ListView
+        android:id="@+id/lvDrinksUser"
+        android:layout_width="324dp"
+        android:layout_height="267dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
