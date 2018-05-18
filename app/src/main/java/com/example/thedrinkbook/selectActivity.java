@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -56,6 +57,9 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
     // For log messages
     final static String LOG = "SelectActivity";
+    
+    private int firstVisibleItem;
+    private int lastVisibleItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +140,9 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         btnBuy = findViewById(R.id.bntBuy);
         btnLogout = findViewById(R.id.bntLogout);
         lvDrinks = findViewById(R.id.lvDrinksUser);
+        
+        firstVisibleItem = lvDrinks.getFirstVisiblePosition();
+        lastVisibleItem = lvDrinks.getLastVisiblePosition();
 
         btnBuy.setOnClickListener(selectActivity.this);
         btnLogout.setOnClickListener(selectActivity.this);
@@ -143,6 +150,19 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         // Set adapter for the listview
         listviewAdapter = new selectAdaptor(this,drinks);
         lvDrinks.setAdapter(listviewAdapter);
+
+        lvDrinks.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+                firstVisibleItem = lvDrinks.getFirstVisiblePosition();
+                lastVisibleItem = lvDrinks.getLastVisiblePosition();
+            }
+        });
     }
 
     // Connection to service
@@ -151,7 +171,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             BackgroundService.BackgroundServiceBinder binder = (BackgroundService.BackgroundServiceBinder) iBinder;
             bgservice = binder.getService();
-            listviewAdapter.updateDrinks(drinks, bgservice);
+            listviewAdapter.updateDrinks(drinks, bgservice, firstVisibleItem, lastVisibleItem);
         }
 
         @Override
@@ -167,7 +187,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
             // Get extra from the broadcast
             drinks = (ArrayList<Drink>)intent.getSerializableExtra(BackgroundService.LOAD_RESULT);
             // Notify adapter to update listview
-            listviewAdapter.updateDrinks(drinks, bgservice);
+            listviewAdapter.updateDrinks(drinks, bgservice, firstVisibleItem, lastVisibleItem);
             Log.d(LOG, "Broadcast received");
         }
     };
@@ -189,6 +209,26 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
                 emptyInDatabase.clear();
             }
 
+            String[] amounts = listviewAdapter.getAmounts();
+
+            for(int i = 0; i < amounts.length; i++){
+                if(amounts[i] != null){
+                    Drink selectedDrink = new Drink();
+                    if(drinks.get(i).Antal >= Integer.parseInt(amounts[i])){
+                        selectedDrink = new Drink(drinks.get(i));
+                        selectedDrink.Antal = Integer.parseInt(amounts[i]);
+                    }
+                    else{
+                        emptyInDatabase.add(drinks.get(i));
+                    }
+
+                    if(selectedDrink.Navn != null){
+                        selectedDrinks.add(selectedDrink);
+                    }
+                }
+            }
+
+            /*
             // Run through elements in listview
                 for (int e = 0; e < elements; e++) {
                     View listView = lvDrinks.getChildAt(e);
@@ -228,6 +268,7 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                 }
+                */
 
                 // If there are any selected drinks
                 if(selectedDrinks.size() != 0) {

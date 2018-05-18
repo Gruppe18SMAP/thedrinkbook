@@ -30,7 +30,7 @@
     <string name="payment_form">Betalingsform</string>
     <string name="imageview_mobilepay_description">Et ikon for MobilePay</string>
     <string name="total_price">Samlet pris:</string>
-    <string name="refill">Rediger lagerbeholdning</string>
+    <string name="refill">Rediger beholdning</string>
     <string name="iconError">"Tag venligst et billede før du gemmer et nyt produkt "</string>
     <string name="no_connection">Der er ikke forbindelse til netværket</string>
     <string name="failed_authentification">Ugyldig bruger</string>
@@ -49,4 +49,5 @@
     <string name="Ja">Ja</string>
     <string name="duslettedeikkeproduktet">Du slettede ikke produktet</string>
     <string name="Nej">Nej</string>
+    <string name="notification_description">Notifikation fra TheDrinkBook</string>
 </resources>
