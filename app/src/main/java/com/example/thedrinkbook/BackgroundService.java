@@ -147,6 +147,7 @@ public class BackgroundService extends Service {
                 if(snapshotCount >= drinksCount)
                 {
                     broadcastLoadResult(drinksList);
+                    elementCount = drinksList.size();
                 }
 
             }
@@ -182,6 +183,7 @@ public class BackgroundService extends Service {
                         drinksList.remove(i);
                         broadcastLoadResult(drinksList);
                         removeIconToStorage(drink.Key);
+                        elementCount = drinksList.size();
                     }
                 }
                 Log.d(msg, "Drink is removed");
@@ -204,8 +206,7 @@ public class BackgroundService extends Service {
         Icon icon = new Icon(c, url, imageview);
         icons.add(icon);
         iconCount = iconCount+1;
-        // Number of possible visible elements in the listview
-        elementCount = 6;
+
         if(iconCount == elementCount) {
             handler.post(runnableLoadIcon);
             iconCount = 0; elementCount = 0;

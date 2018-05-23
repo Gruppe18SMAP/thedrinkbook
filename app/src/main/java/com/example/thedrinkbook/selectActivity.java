@@ -211,19 +211,22 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
 
             String[] amounts = listviewAdapter.getAmounts();
 
-            for(int i = 0; i < amounts.length; i++){
-                if(amounts[i] != null){
-                    Drink selectedDrink = new Drink();
-                    if(drinks.get(i).Antal >= Integer.parseInt(amounts[i])){
-                        selectedDrink = new Drink(drinks.get(i));
-                        selectedDrink.Antal = Integer.parseInt(amounts[i]);
-                    }
-                    else{
-                        emptyInDatabase.add(drinks.get(i));
-                    }
+            if(amounts != null) {
+                for (int i = 0; i < amounts.length; i++) {
+                    if (amounts[i] != null) {
+                        if (!amounts[i].equals("")) {
+                            Drink selectedDrink = new Drink();
+                            if (drinks.get(i).Antal >= Integer.parseInt(amounts[i])) {
+                                selectedDrink = new Drink(drinks.get(i));
+                                selectedDrink.Antal = Integer.parseInt(amounts[i]);
+                            } else {
+                                emptyInDatabase.add(drinks.get(i));
+                            }
 
-                    if(selectedDrink.Navn != null){
-                        selectedDrinks.add(selectedDrink);
+                            if (selectedDrink.Navn != null) {
+                                selectedDrinks.add(selectedDrink);
+                            }
+                        }
                     }
                 }
             }
