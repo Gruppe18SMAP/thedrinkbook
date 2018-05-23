@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void signIn(String mail, String password){
         if(!validateForm()){
+            // Enable button again
+            btnLogin.setEnabled(true);
             return;
         }
 
@@ -119,6 +121,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 checkRole(user);
                             } else {
                                 Toast.makeText(LoginActivity.this, getResources().getString(R.string.failed_authentification), Toast.LENGTH_LONG).show();
+                                // Enable button again
+                                btnLogin.setEnabled(true);
                             }
 
                         }
@@ -167,6 +171,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                     else{
                         Toast.makeText(LoginActivity.this,(getResources().getString(R.string.failed_authentification)), Toast.LENGTH_LONG).show();
+                        // Enable button again
+                        btnLogin.setEnabled(true);
                     }
                 }
 
@@ -188,6 +194,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Log.d(LOG, "User login ");
             startActivityForResult(new Intent(LoginActivity.this, selectActivity.class), LOGIN_REQUEST);
         }
+        btnLogin.setEnabled(true);
     }
 
     @Override
@@ -196,6 +203,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(viewId == R.id.bntLogin){
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+            // Disable the button while checking the input
+            btnLogin.setEnabled(false);
             signIn(etMail.getText().toString(), etPassword.getText().toString());
         }
     }
