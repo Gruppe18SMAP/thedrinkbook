@@ -133,8 +133,10 @@ public class selectAdaptor extends BaseAdapter {
             }
 
             if(firstVisibleItem != 0 || lastVisibleItem != 0){
-                if(amountlist[position] != null && position < lastVisibleItem && position > firstVisibleItem){
-                    etAmount.setText(drink.Antal);
+                if(amountlist[position] != null  && position < lastVisibleItem && position > firstVisibleItem){
+                    if(!amountlist[position].equals("")) {
+                        etAmount.setText(drink.Antal);
+                    }
                 }
             }
 

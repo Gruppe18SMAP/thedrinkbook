@@ -324,13 +324,16 @@ public class selectActivity extends AppCompatActivity implements View.OnClickLis
             }
             // Returning on an OK result
             // Then the amount should be cleared, as the user is returning from having already made a purchase
-            if (resultCode == RESULT_OK){
+            else if (resultCode == RESULT_OK){
                 int elements = lvDrinks.getAdapter().getCount();
                 for (int e = 0; e < elements; e++) {
                     View listView = lvDrinks.getChildAt(e);
                     EditText etAmount = listView.findViewById(R.id.txtAmount);
                     etAmount.setText("");
                 }
+            } else if(resultCode == confirmActivity.RESULT_LOGOUT){
+                FirebaseAuth.getInstance().signOut();
+                finish();
             }
         }
 

@@ -14,6 +14,7 @@ public class confirmActivity extends AppCompatActivity {
     Button bntLogOutConfirm, bntOK;
     int CONFIRM_REQUEST_CODE = 142;
     final static String LOG = "ConfirmActivity";
+    public static int RESULT_LOGOUT = 10;
 
 
     @Override
@@ -28,6 +29,7 @@ public class confirmActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
                 Log.d(LOG, "User loggedout");
+                setResult(RESULT_LOGOUT);
                 finish();
             }
         });

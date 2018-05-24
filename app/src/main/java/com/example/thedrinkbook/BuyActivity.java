@@ -192,6 +192,9 @@ public class BuyActivity extends AppCompatActivity {
                 setResult(RESULT_OK);
                 finish();
             }
+        } else if (resultCode == confirmActivity.RESULT_LOGOUT){
+            setResult(confirmActivity.RESULT_LOGOUT);
+            finish();
         }
     }
 
