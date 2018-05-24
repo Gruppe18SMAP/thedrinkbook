@@ -129,6 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     });
         } else{
             Toast.makeText(LoginActivity.this, connectStat, Toast.LENGTH_LONG).show();
+            btnLogin.setEnabled(true);
         }
     }
 
